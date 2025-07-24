@@ -1,0 +1,24 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="{pe_url('article-list-'.$class_id)}"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="dingdan_info1">
+		<div class="mat10 font18 c333 aleft">{$info['article_name']}</div>
+		<div class="mat10 font12 c999 fl">发布于：{pe_date($info['article_atime'])}</div>
+		<div class="mat10 font12 c999 fr">{$info['article_clicknum']}人围观</div>
+		<div class="clear"></div>
+		<div class="xian"></div>
+		<div class="danye_main mat20">{$info['article_text']}</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(".danye_main img").removeAttr("height").removeAttr("width");
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

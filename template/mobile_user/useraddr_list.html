@@ -1,0 +1,39 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>Joylashuv</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content" style="margin-bottom:75px;">
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">Ma`lumot yo`q</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $v):}-->
+	<div class="user_box_zh mat10 pageid" style="border-bottom:0">
+		<div class="add_list">
+			<span class="fl">{$v['user_tname']}</span>
+			<span class="fr">{$v['user_phone']}</span>
+			<div class="clear"></div>
+			<div class="mat5">
+				<!--{if($v['address_default']):}--><span class="cred">[standart]</span><!--{endif;}-->
+				<span class="c999">{$v['address_province']} {$v['address_city']} {$v['address_area']} {$v['address_text']}</span>
+			</div>
+			<div class="xian"></div>
+			<div class="fr mat10">
+				<a href="user.php?mod=useraddr&act=edit&id={$v['address_id']}" class="edit_btn mar10">Qayta ko'rib chiqish</a>
+				<a href="user.php?mod=useraddr&act=del&id={$v['address_id']}&token={$pe_token}" onclick="return app_delinfo(this, '删除该地址')" class="edit_btn">o'chirish</a>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<div class="fb_btn1"><a href="user.php?mod=useraddr&act=add">Yangi manzil qo`shish</a></div>
+<!--{include(pe_tpl('footer.html'));}-->

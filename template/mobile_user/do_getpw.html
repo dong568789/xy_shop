@@ -1,0 +1,74 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:history.go(-1)"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main">
+	<div class="zc_box2">
+		<form method="post" id="form">
+		<div class="zc_list">
+			<div class="zc_mal zc_i1"><input type="text" name="user_name" class="login_input1" placeholder="Telefon raqami / E-pochta" /></div>
+		</div>
+		<!-- <div class="zc_list">
+			<div class="zc_mal zc_i4">
+				<input type="text" name="yzm" class="zc_input1" placeholder="Telefon / E-pochta tasdiq kodi" />
+				<div class="zc_smsyzm" href="https://zmuuuz.vip/index.php?mod=check&act=send_yzm&type=getpw" onclick="pe_sendyzm(this, 'user_name')">获取验证码</div>
+			</div>
+		</div> -->
+		<div class="zc_list">
+			<div class="zc_mal zc_i2"><input type="password" name="user_pw" class="zc_input1" placeholder="Yangi parolni kiriting (6-20 belgilar)" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_mal zc_i2"><input type="password" name="user_pw1" class="zc_input1" placeholder="Yangi parolni qaytadan kiriting" /></div>
+		</div>
+	</div>
+	<div class="loginbtn" style="margin:20px 30px;">
+		<input type="hidden" name="pesubmit" />
+		<input type="button" value="Yuborish" />
+	</div>
+	</form>
+	<div class="zh_zc1">
+		<a href="{$pe['host_root']}user.php?mod=do&act=register" class="mar10">Bepul ro`yxatdan o`tish</a> |
+		<a href="{$pe['host_root']}user.php?mod=do&act=login" class="mal10">Foydalanuvchi kirishi</a>
+	</div>
+	
+</div>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		if ($(":input[name='user_name']").val() == '') {
+			app_tip("Iltimos, kirish hisobini kiriting");
+			return false;
+		}
+		if ($(":input[name='yzm']").val() == '') {
+			app_tip("Iltimos, tasdiq kodini kiriting");
+			return false;
+		}
+		if ($(":input[name='user_pw']").val() == '') {
+			app_tip("Iltimos, yangi parolni kiriting");
+			return false;
+		}
+		if ($(":input[name='user_pw1']").val() == '') {
+			app_tip("Iltimos, tasdiq parolini kiriting");
+			return false;
+		}
+		if ($(":input[name='user_pw']").val() != $(":input[name='user_pw1']").val()) {
+			app_tip("Yangi parol va tasdiqlovchi parol mos kelmaydi");
+			return false;
+		}
+		$(this).val("Yuborish");
+		app_submit('user.php?mod=do&act=getpw', function(json){
+			if (json.result) {
+				app_open('user.php', 1000);
+			}
+			else {
+	    		$(":button").val("Yuborish");			
+			}
+		})
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

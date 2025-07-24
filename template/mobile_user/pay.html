@@ -1,0 +1,76 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=moneylog"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<form method="post" id="form">
+<div class="content">
+	<div class="zc_box2 mat10">
+		<div class="zc_list">
+			<div class="zc_name">账户余额</div>
+			<div class="zc_text"><span class="num strong corg">{$user['user_money']}</span> 元</div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">充值金额</div>
+			<div class="zc_text"><input type="text" name="order_money" placeholder="请填写充值金额" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">支付方式</div>
+			<div class="zc_text" onclick="app_page('page_payment')" id="payment_btn"></div>
+			<i class="jt_r"></i>
+		</div>
+	</div>
+	<div class="loginbtn" style="margin:15px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />	
+		<input type="button" value="提 交" />
+	</div>
+</div>
+<div id="page_payment" class="divhide">
+	<div class="add_tt">选择支付方式</div>
+	<div class="close_btn" onclick="app_page_close();"></div>
+	<div>
+		<!--{foreach($payment_list as $k=>$v):}-->
+		<label class="add_sel js_radio" for="order_payment_{$k}">
+			<input type="radio" name="order_payment" value="{$k}" payment_name="{$v['payment_name']}" id="order_payment_{$k}" class="divhide" />
+			<div class="fl mar5" style="width:22px; overflow:hidden;"><img src="{$pe['host_root']}public/plugin/payment/{$k}/logo.png" width="85" /></div>
+			<div class="fl mat2">{$v['payment_name']}</div>
+			<div class="dui_1"></div>
+			<div class="clear"></div>
+		</label>
+		<!--{endforeach;}-->
+	</div>
+</div>
+</form>
+<script type="text/javascript" src="{$pe['host_root']}public/plugin/payment/wechat/wechat.js"></script>
+<script type="text/javascript">
+$(function(){
+	//支付方式
+	pe_select_radio('order_payment', $(":input[name='order_payment']:eq(0)").val(), function(json){
+		$("#payment_btn").html($(":input[name='order_payment']:checked").attr("payment_name"));
+		app_page_close();
+	});
+	$(":button").click(function(){
+		var order_payment = $(":input[name='order_payment']:checked").val();
+		var order_money = pe_num($(":input[name='order_money']").val(), 'floor', 1);
+		if (order_money < 0.1) {
+			app_tip('最低充值0.1元');
+			return false;
+		}
+		app_submit("{pe_nowurl()}", function(json){
+			if (json.result) {
+				if(order_payment == 'wechat') {
+					wx_pay(json.id);
+				}
+				else {
+					app_open(json.url, 1000);
+				}
+			}
+		})
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

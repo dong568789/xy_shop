@@ -1,0 +1,59 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=setting&act=base"></a></div>
+	<div>Kirish parolini o`zgartirish</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main">
+	<form method="post" id="form">
+	<div class="zc_box2">
+		<!--{if($user['user_pw']):}-->
+		<div class="zc_list">
+			<div class="zc_name">Amaldagi parol</div>
+			<div class="zc_text"><input type="password" name="user_oldpw" placeholder="Amaldagi kirish paroli" /></div>
+		</div>
+		<!--{endif;}-->
+		<div class="zc_list">
+			<div class="zc_name">Yangi kirish paroli</div>
+			<div class="zc_text"><input type="password" name="user_pw" placeholder="Yangi kirish paroli" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">Yangi parolni tasdiqlang</div>
+			<div class="zc_text"><input type="password" name="user_pw1" placeholder="Yangi kirish parolini tasdiqlang" /></div>
+		</div>
+	</div>
+	<div class="loginbtn" style="margin:20px 10px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />
+		<input type="button" value="Yuborish" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		/*if ($(":input[name='user_oldpw']").val().length == 0) {
+			app_tip('请输入原密码');
+			return false;
+		}
+		if ($(":input[name='user_pw']").val().length < 6 || $(":input[name='user_pw']").val().length > 20) {
+			app_tip('新密码为6-20位字符');
+			return false;
+		}
+		if ($(":input[name='user_pw1']").val().length < 6 || $(":input[name='user_pw1']").val().length > 20) {
+			app_tip('确认密码为6-20位字符');
+			return false;
+		}
+		if ($(":input[name='user_pw']").val() != $(":input[name='user_pw1']").val()) {
+			app_tip('新密码与确认密码不一致');
+			return false;
+		}*/
+		app_submit("{pe_nowurl()}", function(json){
+			if (json.result) app_open('user.php?mod=setting&act=base', 1000);
+		});
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

@@ -1,0 +1,47 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:app_iframe_close();"></a></div>
+	<div>Buyurtmani bekor qilish</div>
+</div>
+<div class="content">
+	<form method="post" id="form">
+	<div class="zc_box2 mat10">
+		<div class="zc_list">
+			<div class="zc_name">Buyurtma raqami</div>
+			<div class="zc_text">{$info['order_id']}</div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">Haqiqiy to'langan miqdor</div>
+			<div class="zc_text">{$info['order_money']} сум</div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">To'lov usullari</div>
+			<div class="zc_text">{$info['order_payment_name']}</div>
+		</div>	
+		<div class="zc_list zc_textarea">
+			<div class="zc_name" style="margin-left:0px;">Bekor qilish sababi</div>
+			<div class="zc_text" ><textarea type="text" name="order_closetext" placeholder="Buyurtmani bekor qilish sababini to'ldiring" /></textarea></div></div>
+		</div>
+	</div>
+	<div class="loginbtn" style="margin:20px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />
+		<input type="button" value="topshirish" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		if ($(":input[name='order_closetext']").val() == '') {
+			app_tip('Iltimos, bekor qilish sababini kiriting');
+			return false;
+		}
+		app_submit('{pe_nowurl()}', function(json){
+			if (json.result) app_iframe_close(true, 1000);
+		})
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

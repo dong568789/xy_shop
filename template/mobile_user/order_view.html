@@ -1,0 +1,150 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=order"></a></div>
+	<div>Buyurtma tafsilotlari</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<!--<div class="zt_box">-->
+<!--	<p>{order_stateshow($info['order_state'], 'text')}</p>-->
+	<!--{if($info['order_state']=='close'):}-->
+<!--	<div class="font12">关闭说明：{$info['order_closetext']}</div>-->
+	<!--{endif;}-->
+<!--	<i></i>-->
+<!--</div>-->
+<!--{if(!$info['order_virtual']):}-->
+<!--<div class="dd_zt">-->
+<!--	<div class="dd_fh">-->
+<!--		<i class="dd_ico1"></i>-->
+		<!--{if($info['order_wl_name']):}-->
+<!--		<a href="{pe_url('order-kuaidi', 'id='.$info['order_wl_id'])}">-->
+<!--			<div class="dd_fh_text"><p>{$info['order_wl_name']}</p><p class="c888">{$info['order_wl_id']}</p></div>-->
+<!--			<i class="jt_r"></i>-->
+<!--		</a>-->
+		<!--{else:}-->
+<!--		<div class="dd_fh_text">无快递信息</div>-->
+		<!--{endif}-->
+<!--	</div>-->
+<!--	<div class="dd_fh dd_sh">-->
+<!--		<i class="dd_ico2"></i>-->
+<!--		<div class="dd_fh_text" style="margin-right:0">-->
+<!--			<div>-->
+<!--				<span class="fl">收货人：{$info['user_tname']}</span>-->
+<!--				<span class="fr">{$info['user_phone']}</span>-->
+<!--				<div class="clear"></div>-->
+<!--			</div>-->
+<!--			<div>收货地址：{$info['user_address']}</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
+<!--{endif;}-->
+<div class="main" style="margin-top:0; margin-bottom:55px;">
+	<!--{if(count($prokey_list)):}-->
+	<div class="dingdan_tt3"><span>卡密信息</span></div>
+	<div class="xh_info">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<th width="33.3%" style="background:#F8F8F8"><strong>卡号</strong></th>
+			<th width="33.3%" style="background:#F8F8F8"><strong>密码</strong></th>
+			<th width="33.3%" style="background:#F8F8F8"><strong>有效期至</strong></th>
+		</tr>
+		<!--{foreach($prokey_list as $k=>$v):}-->
+		<tr>
+			<td>{$v['prokey_user']}</td>
+			<td>{$v['prokey_pw']}</td>
+			<td>{$v['prokey_edate']}</td>
+		</tr>
+		<!--{endforeach;}-->
+		</table>
+	</div>
+	<!--{endif;}-->
+	<div class="dingdan_tt3"><span>Mahsulot ro`yxati</span></div>
+	<!--{foreach($product_list as $k=>$v):}-->
+	<div class="order_a">
+		<div class="dingdan_img"><a href="{pe_url('product-'.$v['product_id'])}"><img src="{pe_thumb($v['product_logo'], 100, 100)}" /></a></div>
+		<div class="dingdan_name">
+			<p style="height:40px; overflow:hidden;">
+				<!--{if($info['order_type']=='pintuan'):}--><span class="tag_pintuan">拼团</span><!--{endif;}-->
+				<a href="{pe_url('product-'.$v['product_id'])}">{$v['product_name']}</a>
+			</p>
+			<p class="c888 font12">{order_skushow($v['product_rule'])}</p>
+		</div>
+		<div class="dingdan_jg">
+			<p>{$v['product_money']} сум</p>
+			<p class="c999 font12">×{$v['product_num']}</p>
+		</div>
+		<div class="clear"></div>
+		<div class="tk_box">
+			<!--{if($v['refund_id']):}-->
+			<a class="tag_org" href="user.php?mod=refund&act=view&id={$v['refund_id']}">{refund_stateshow($v['refund_state'], 'text')}</a>
+			<!--{elseif(in_array($info['order_state'], array('wsend', 'wget'))):}-->
+			<!--<a class="tk_btn1" href="javascript:app_iframe('user.php?mod=refund&act=add&id={$v['orderdata_id']}');">退款/退货</a>			-->
+			<!--{endif;}-->
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="xuxian2"></div>
+	<!--{endforeach;}-->
+	<div class="dingdan_info">
+		<div class="order_xq">
+			<span class="fl c999">Mahsulot miqdori</span><span class="fr"> {$info['order_product_money']} сум</span>
+			<div class="clear"></div>
+			<span class="fl c999">Yuk tashish</span><span class="fr"> {$info['order_wl_money']} сум</span>
+			<div class="clear"></div>
+			<!--{if($info['order_quan_money']>0):}-->
+			<!--<span class="fl c999">店铺优惠</span><span class="fr">- ¥ {$info['order_quan_money']}</span>-->
+			<!--<div class="clear"></div>-->
+			<!--{endif;}-->
+			<!--{if($info['order_point_money']>0):}-->
+			<!--<span class="fl c999">积分抵扣</span><span class="fr">- ¥ {$info['order_point_money']}</span>-->
+			<!--<div class="clear"></div>-->
+			<!--{endif;}-->
+			<span class="fl c999">To`langan summa</span><span class="fr font16 cred"> {$info['order_money']} сум</span>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="dingdan_tt3"><span>Buyurtma ma`lumotlari</span></div>
+	<div class="dingdan_info">
+		<div><span class="c999">Buyurtma raqami：</span>{$info['order_id']}</div>
+		<div><span class="c999">Buyurtma vaqti：</span>{pe_date($info['order_atime'])}</div>
+		<div><span class="c999">To`lov vaqti：</span><!--{if($info['order_ptime']):}-->{pe_date($info['order_ptime'])}<!--{else:}-->--<!--{endif;}--></div>
+		<!--<div><span class="c999">发货时间：</span><!--{if($info['order_stime']):}-->{pe_date($info['order_stime'])}<!--{else:}-->--<!--{endif;}--></div>-->
+		<!--<div><span class="c999">付款方式：</span>{$info['order_payment_name']}</div>-->
+		<!--{if($info['order_point_get']):}-->
+		<!--<div><span class="c999">获得积分：</span>{$info['order_point_get']} 积分</div>-->
+		<!--{endif;}-->
+		<!--<div><span class="c999">买家留言：</span>{$info['order_text']}</div>-->
+	</div>
+</div>
+<div class="zt_bot" style="height:50px;background-color:#ff7601">
+	<div style="padding:0 10px;">
+		<!--{if($info['order_state']=='wpay'):}-->
+		<a class="tag_org mal10" href="index.php?mod=order&act=pay&id={$info['order_id']}">Hozir toʻlang</a>
+		<a class="tag_gray mal10" href="javascript:app_iframe('user.php?mod=order&act=close&id={$info['order_id']}');">Buyurtmani bekor qilish</a>
+		<!--{elseif($info['order_state'] == 'success' && !$info['order_comment']):}-->
+		<!--<a class="tag_org mal10" href="user.php?mod=order&act=comment&id={$info['order_id']}&{pe_fromto()}">评价</a>-->
+		<!--{endif;}-->
+		<!--{if($info['pintuan_id'] && $info['order_pstate']):}-->
+		<!--<a class="tag_gray mal10" href="{$pe['host_root']}index.php?mod=order&act=pintuan&id={$info['pintuan_id']}">拼团详情</a>-->
+		<!--{endif;}-->
+		<?php if($info['order_state'] == 'wsend'){?>
+			<center><a class="" style="width:160px;font-size: 25px;font-family: 'Microsoft Yahei', '宋体';color:#fff;" href="javascript:app_confirm('qayta sotib olish', 'user.php?mod=order&act=recycle&id={$info['order_id']}&token={$pe_token}');">qayta sotib olish</a></center>
+		<?php }?>
+		<!--{if($info['order_state'] == 'wget'):}-->
+		<!--<a class="tag_org mal10" href="javascript:app_confirm('qayta sotib olish', 'user.php?mod=order&act=recycle&id={$info['order_id']}&token={$pe_token}');">qayta sotib olish</a>-->
+		<!--{endif;}-->
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	if ($(".zt_bot a").length == 0) {
+		$(".zt_bot").remove();
+		$(".main").css("margin-bottom", "10px");
+	}
+})
+</script>
+<style type="text/css">
+body{background:#e8e8ed}
+</style>
+<!--{include(pe_tpl('footer.html'));}-->

@@ -1,0 +1,87 @@
+
+<!--{include(pe_tpl('header_dialog.html','admin'));}-->
+<div class="search">
+	<form method="get">
+	<input type="hidden" name="mod" value="{$_g_mod}" />
+	<input type="hidden" name="act" value="{$_g_act}" />
+	商品名称：<input type="text" name="name" value="{$_g_name}" class="inputtext input200" />
+	<select name="category_id" class="selectmini">
+	<option value="" href="{pe_updateurl('category_id', '')}">全部分类</option>
+	<!--{foreach($category_treelist as $v):}-->
+	<option value="{$v['category_id']}" href="{pe_updateurl('category_id', $v['category_id'])}" <!--{if($_g_category_id==$v['category_id']):}-->selected="selected"<!--{endif;}-->>{$v['category_showname']}</option>
+	<!--{endforeach;}-->
+	</select>
+	<select name="brand_id" class="selectmini">
+	<option value="" href="{pe_updateurl('brand_id', '')}">全部品牌</option>
+	<!--{foreach($cache_brand as $v):}-->
+	<option value="{$v['brand_id']}" href="{pe_updateurl('brand_id', $v['brand_id'])}" <!--{if($_g_brand_id==$v['brand_id']):}-->selected="selected"<!--{endif;}-->>[{$v['brand_word']}] {$v['brand_name']}</option>
+	<!--{endforeach;}-->
+	</select>
+	<input type="submit" value="搜索" class="input_btn" />
+	</form>
+</div>
+<form method="post" id="form">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+<tr>
+	<th class="bgtt" width="50">ID号</th>
+	<th class="bgtt" width="40"></th>
+	<th class="bgtt">商品名称</th>
+	<th class="bgtt" width="100">单价(元)</th>
+	<th class="bgtt" width="100">操作</th>
+</tr>
+<!--{foreach($info_list as $v):}-->
+<tr class="js_product" id="{$v['product_id']}">
+	<td>{$v['product_id']}</td>
+	<td><a href="{pe_url('product-'.$v['product_id'])}" target="_blank"><img src="{pe_thumb($v['product_logo'], 100, 100)}" width="40" height="40" class="imgbg" /></a></td>
+	<td class="aleft"><a href="{pe_url('product-'.$v['product_id'])}" target="_blank" class="cblue">{$v['product_name']}</a></td>
+	<td><span class="corg">{$v['product_smoney']}</span></td>
+	<!--{if($mod=='zhekou' && is_array($qj_arr[$v['product_id']])):}-->
+	<td><del>有区间价</del></td>
+	<!--{else:}-->
+	<td><a href="javascript:select_btn('{$v['product_id']}');" class="admin_btn">选择</a></td>
+	<!--{endif;}-->
+</tr>
+<!--{endforeach;}-->
+</table>
+<div class="right_bottom">
+	<span class="fr fenye mab10">{$db->page->html}</span>
+	<div class="clear"></div>
+</div>
+</form>
+<script type="text/javascript">
+$(function(){
+	var product_list = $(window.parent.document).find(".js_product");
+	if (product_list.length > 0 && {count($info_list)} > 0) {
+		product_list.each(function(){
+			$("#"+$(this).attr("id")).find(".admin_btn").addClass("sel").text("已选");
+		})
+	}
+	$("select").change(function(){
+		window.location.href = 'webadmin.php' + $(this).find("option:selected").attr("href");
+	})
+})
+function select_btn(id) {
+	
+	var _this = $("#"+id);
+	var _btn = _this.find(".admin_btn");
+	if (_btn.hasClass("sel")) {
+		$(window.parent.document).find("#" + id).remove();
+		_btn.removeClass("sel").text("选择");
+	}
+	else {
+		pe_getinfo("{$pe['host_root']}admin/webadmin.php?mod={$mod}&act=product_add&id="+id, function(json){
+			$(window.parent.document).find("#product_list tr").eq(0).after(json.html);
+			_btn.addClass("sel").text("已选");
+		})		
+	}
+	select_tjnum();
+}
+
+function select_tjnum() {
+	$(window.parent.document).find("#product_num").html($(window.parent.document).find(".product_id").length);
+}
+</script>
+<style type="text/css">
+.admin_btn.sel{background:#5CB85C; color:#fff}
+</style>
+<!--{include(pe_tpl('footer_dialog.html','admin'));}-->

@@ -1,0 +1,97 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="loginbox" style="margin:0">
+		<form method="post" id="form">
+		<div class="sctx_tx">
+			<div class="center" style="position:relative; width:102px; margin:10px auto 0">
+				<div class="user_tx1"><img src="{$user_logo}?time={time()}" class="upload_logo" /></div>
+				<input type="hidden" name="user_logo" value="{$info['user_logo']}" class="upload_value" />
+				<span class="upload_jindu c666"></span>
+			</div>
+			<div style="text-align:center; margin:0 auto; width:155px;">
+				<div class="sctx">
+					<a href="javascript:;" class="logo_btn" style="width:65px">Rasmni tanlang</a>
+					<a href="javascript:;" class="user_txdel">Rasmni o'chirish</a>
+				</div>
+			</div>
+		</div>
+		<div class="loginbtn" style="margin:15px 12px;">
+			<input type="hidden" name="pe_token" value="{$pe_token}" />
+			<input type="hidden" name="pesubmit" />	
+			<input type="button" value="topshirish" />
+		</div>
+		</form>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="{$pe['host_root']}public/plugin/webuploader/webuploader.css">
+<script charset="utf-8" src="{$pe['host_root']}public/plugin/webuploader/webuploader.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		app_submit("{pe_nowurl()}", function(json){
+			if (json.result) {
+				app_open('user.php', 1000);
+			}
+		})
+	})
+	$(".user_txdel").click(function(){
+		$(".upload_logo").attr("src", "{pe_thumb('', '_120', '_120', 'avatar')}");
+		$(".upload_value").val('');
+	})
+    // 初始化Web Uploader
+    var uploader;
+    uploader = WebUploader.create({
+        // 自动上传。
+        auto: true,
+        // swf文件路径
+        swf: "{$pe['host_root']}public/plugin/webuploader/Uploader.swf",
+        // 文件接收服务端。
+        server: "{$pe['host_root']}public/plugin/webuploader/upload.php?uptype=avatar",	
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: {id:'.logo_btn', multiple:false},
+        // 只允许选择文件，可选。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    });
+    // 当有文件添加进来的时候
+    uploader.on('fileQueued', function( file ) {
+        $(".upload_jindu").show().html("（Yuklanmoqda 0%）");
+    });
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on('uploadProgress', function( file, percentage ) {
+        $(".upload_jindu").html('（上传中' + parseInt(percentage * 100) + '%）' );
+    });
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on('uploadSuccess', function( file, response) {
+	    if ( response.result == true ) {
+	        $(".upload_jindu").html('（Yuklash muvaffaqiyatli）').hide();
+	        $(".upload_logo").attr("src", response.img);
+	        $(".upload_value").val(response.val);
+	        uploader.reset();
+	    }
+	    else {
+	        $(".upload_jindu").html('（Yuklab bo‘lmadi）');	    
+	    }
+    });
+    // 文件上传失败，现实上传出错。
+    uploader.on( 'uploadError', function( file ) {
+		$(".upload_jindu").html('Yuklab bo‘lmadi');
+    });
+});
+</script>
+<style>
+.webuploader-pick{height:26px; line-height:26px; background:#f8f8f8; color:#666; margin-top:30px; border:1px solid #ddd;}
+.upload_jindu{position:absolute;top:38px;left:1px;opacity:0.5; background:#000;color:#fff; font-weight:bold; font-size:12px;height:22px;line-height:22px;width:90px;text-align:center;display:none}
+</style>
+<!--{include(pe_tpl('footer.html'));}-->

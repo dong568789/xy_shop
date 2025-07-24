@@ -1,0 +1,55 @@
+<!--{include(pe_tpl('header_dialog.html','admin'));}-->
+<form method="post" id="form" autocomplete="off">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang_bak">
+<tr>
+	<td class="bgtt aright">通知类型</td>
+	<td>{$info['notice_name']}</td>
+</tr>
+<tr>
+	<td class="bgtt aright" width="120">通知用户</td>
+	<td>{$info['notice_obj']=='admin'?'管理员':'会员'}</td>
+</tr>
+<!--{if($_g_type == 'email'):}-->
+<tr>
+	<td class="bgtt aright">邮件标题</td>
+	<td><input name="info[notice_email_name]" class="inputall input600" value="{$info[notice_email_name]}" /></td>
+</tr>
+<tr>
+	<td class="bgtt aright">邮件内容</td>
+	<td>
+    <script id="editor" type="text/plain" name="info[notice_email_text]" style="width:650px;height:350px;">
+{$info['notice_email_text']}
+</script>
+    </td>
+</tr>
+<!--{else:}-->
+<tr>
+	<td class="bgtt aright">短信内容</td>
+	<td><textarea name="info[notice_sms_text]" style="width:610px;height:210px">{$info['notice_sms_text']}</textarea>
+    </td>
+</tr>
+<tr>
+	<td class="bgtt aright">模板ID</td>
+	<td>
+    <input name="info[notice_sms_templateid]" class="inputall input200" value="{$info[notice_sms_templateid]}" />
+    </td>
+</tr>
+<!--{endif;}-->
+</table>
+<div class="mat20 center">
+	<input type="hidden" name="pe_token" value="{$pe_token}" />
+	<input type="submit" name="pesubmit" value="提 交" class="tjbtn" />
+</div>
+</form>
+<script type="text/javascript" charset="utf-8" src="{$pe['host_root']}public/plugin/u8editor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$pe['host_root']}public/plugin/u8editor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$pe['host_root']}public/plugin/u8editor/lang/zh-cn/zh-cn.js"></script>
+   
+
+
+<script type="text/javascript">
+//实例化编辑器
+var ue = UE.getEditor('editor');
+
+</script>	
+<!--{include(pe_tpl('footer_dialog.html','admin'));}-->

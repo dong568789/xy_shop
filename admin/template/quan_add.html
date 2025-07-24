@@ -1,0 +1,119 @@
+
+<!--{include(pe_tpl('header.html','admin'));}-->
+<div class="right">
+	<form method="post" id="form">
+	<div class="now">
+		<a href="javascript:;" class="sel">{$menutitle}<i></i></a>
+		<div class="clear"></div>
+	</div>
+	<div class="right_main">
+		<div class="tixing corg">提示：全店通用的优惠券不用选择限定商品</div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang mat20 mab20">
+		<tr>
+			<td align="right" width="150">领取方式：</td>
+			<td>
+				<!--{if($act == 'add'):}-->
+				<!--{foreach($ini['quan_type'] as $k=>$v):}-->
+				<label class="mar30"><input type="radio" name="info[quan_type]" value="{$k}" <!--{if($k==$info['quan_type']):}-->checked="checked"<!--{endif;}--> {$disabled} /> {$v}</label>
+				<!--{endforeach;}-->
+				<!--{else:}-->
+				{$ini['quan_type'][$info['quan_type']]}
+				<!--{endif;}-->
+			</td>
+		</tr>
+		<tr>
+			<td align="right">名　　称：</td>
+			<td><input type="text" name="info[quan_name]" value="{$info['quan_name']}" class="inputall input400" /></td>
+		</tr>
+		<tr>
+			<td align="right">面　　值：</td>
+			<td>
+				<input type="text" name="info[quan_money]" value="{$info['quan_money']}" class="inputall input100" {$disabled} /> 元，
+				<span class="mal5">满 <input type="text" name="info[quan_limit]" value="{$info['quan_limit']}" class="inputall input100" /> 元可使用</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">发放数量：</td>
+			<td>
+				<input type="text" name="info[quan_num]" value="{$info['quan_num']}" class="inputall input100" <!--{if($info['quan_type']=='offline'):}-->disabled="disabled"<!--{endif;}--> /> 张		
+			</td>
+		</tr>
+		<tr>
+			<td align="right">有效日期：</td>
+			<td>
+				<input type="text" name="info[quan_sdate]" value="{$info['quan_sdate']}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputall input100" />
+				至 <input type="text" name="info[quan_edate]" value="{$info['quan_edate']}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputall input100" />
+			</td>
+		</tr>
+		<!--<tr>
+			<td align="right">每人限领：</td>
+			<td>1 张</td>
+		</tr>
+		<tr>
+			<td align="right">限定商品：</td>
+			<td>
+				<a href="webadmin.php?mod=quan&act=product_list&id={$info['quan_id']}" onclick="return pe_dialog(this, '选择限定商品', 1000, 550, 'product_list')" class="admin_btn">选择限定商品</a>
+				<span class="cbbb">（设置此券可用于哪些商品，全店通用的无需选择）</span>
+			</td>
+		</tr>-->
+		</table>
+	</div>
+	<div class="now">
+		<a href="javascript:;" class="sel">限定商品（<span id="product_num">{count($product_ids)}</span>）<i></i></a>
+		<a href="webadmin.php?mod=quan&act=product_list&id={$info['quan_id']}" onclick="return pe_dialog(this, '选择限定商品', 1000, 550)" id="fabu">选择商品</a>
+		<div class="clear"></div>
+	</div>
+	<div class="right_main">
+		<table border="0" cellspacing="0" cellpadding="0" class="list" id="product_list">
+		<tr>
+			<th class="bgtt" width="50">ID号</th>
+			<th class="bgtt" width="40"></th>
+			<th class="bgtt">商品名称</th>
+			<th class="bgtt" width="150">单价(元)</th>
+			<th class="bgtt" width="100">操作</th>
+		</tr>
+		<!--{foreach($product_list as $v):}-->
+		<tr class="js_product" id="{$v['product_id']}">
+			<td>{$v['product_id']}<input type="hidden" name="product_id[]" value="{$v['product_id']}" /></td>
+			<td><img src="{pe_thumb($v['product_logo'], 100, 100)}" width="40" height="40" class="imgbg" /></td>
+			<td class="aleft"><a href="{pe_url('product-'.$v['product_id'])}" target="_blank" class="cblue">{$v['product_name']}</a></td>
+			<td><span class="corg">{$v['product_money']}</span></td>
+			<td><a href="javascript:;" class="admin_btn">删除</a></td>
+		</tr>
+		<!--{endforeach;}-->
+		</table>
+	</div>
+	<div class="center mat20 mab10">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="submit" name="pesubmit" value="提 交" class="tjbtn" />		
+	</div>
+	</form>
+</div>
+<script type="text/javascript" src="{$pe['host_root']}public/plugin/my97/WdatePicker.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#product_list .admin_btn").live("click", function(){
+		$(this).parents("tr").remove();
+		$("#product_num").html($(".js_product").length);
+	})
+	$("input[disabled='disabled']").css("background-color", "#f6f6f6")
+	//quan_num();
+})
+function quan_num() {
+	if ($(":input[name='info[quan_type]']:checked").val() == 'online') {
+		$("#quan_num").show().find(":input").attr("disabled", "disabled");
+	}
+	else {
+		$("#quan_num").hide().find(":input").removeAttr("disabled");		
+	}
+	$(":input[name='info[quan_type]']").change(function(){
+		if ($(":input[name='info[quan_type]']:checked").val() == 'online') {
+			$("#quan_num").show().find(":input").attr("disabled", "disabled");
+		}
+		else {
+			$("#quan_num").hide().find(":input").removeAttr("disabled");		
+		}
+	})
+}
+</script>
+<!--{include(pe_tpl('footer.html','admin'));}-->

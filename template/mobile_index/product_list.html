@@ -1,0 +1,111 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:app_open('back');"></a></div>
+	<div class="shop_top_m" style="padding-top:7px;">
+		<form method="get">
+			<!--<div class="sear" onclick="javascript:app_iframe('{$pe['host_root']}index.php?mod=search&keyword={$_g_keyword}');">-->
+				<!--<div class="sear_input_box"><input name="keyword" type="text" value="{htmlspecialchars($_g_keyword)}" class="sear_input" style="background:#eee;" placeholder="请输入商品名称" /></div>-->
+			<!--	<div class="sear_tj"><input type="submit" value=" "></div>-->
+			<!--	<div class="clear"></div>-->
+			<!--</div>-->
+		</form>
+	</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="bg_fl" id="search_bg" style="display:none"></div>
+<div class="screen">
+	<!--分类筛选循环 Start-->
+	<div class="screen01">
+		<div class="screen_name" id="category_btn">
+			<span class="fenlei_name">{$category_name}</span> <i class="jt_xia1"></i>
+		</div>
+	</div>
+	<!--<div class="screen_list divhide" id="category_html">-->
+	<!--	<div class="screen_left" style="width:100%;">-->
+	<!--		<ul>-->
+	<!--		<li <!--{if($category_id==$category_zk_id):}-->class="sel"<!--{endif;}-->><a href="{pe_url('product-list-')}">全部</a><span></span></li>-->
+			<!--{if(is_array($cache_category_arr[$category_zk_id])):}-->
+			<!--{foreach($cache_category_arr[$category_zk_id] as $k=>$v):}-->
+	<!--		<li <!--{if($category_id==$k):}-->class="sel"<!--{endif;}-->><a href="{pe_url('product-list-'.$v['category_id'])}">{$v['category_name']}</a><span></span></li>-->
+			<!--{endforeach;}-->
+			<!--{endif;}-->
+	<!--		</ul>-->
+	<!--	</div>-->
+	<!--</div>-->
+	<!--分类筛选循环 End-->
+	<!--品牌筛选循环 Start-->
+	<!--<div class="screen01" id="orderby_btn">-->
+	<!--	<div class="screen_name">-->
+	<!--		{$brand_name} <i class="jt_xia1"></i>-->
+	<!--	</div>-->
+	<!--</div>-->
+
+	<!--品牌筛选循环 End-->
+	<!--排序筛选循环 Start-->
+	<!--<div class="screen01" id="orderby_btn">-->
+	<!--	<div class="screen_name">-->
+	<!--		{$orderby_name} <i class="jt_xia1"></i>-->
+	<!--	</div>-->
+	<!--</div>-->
+	<!--<div class="screen_list divhide" id="orderby_html">-->
+	<!--	<div class="screen_left" style="width:100%;height:246px">-->
+	<!--		<ul>-->
+ <!--           <li <!--{if(!$_g_orderby):}-->class="sel"<!--{endif;}-->><a href="{pe_updateurl('orderby', '')}">综合排序</a></li>-->
+			<!--{foreach($orderby_list as $k=>$v):}-->
+	<!--		<li <!--{if($_g_orderby==$k):}-->class="sel"<!--{endif;}-->><a href="{pe_updateurl('orderby', $k)}">{$v}</a><span></span></li>-->
+			<!--{endforeach;}-->
+	<!--		</ul>-->
+	<!--	</div>-->
+	<!--</div>-->
+	<!--排序筛选循环 End-->
+</div>
+<!--循环 Start-->
+<div class="content">
+	<div class="tuijian_list mat10">
+		<ul>
+		<!--{foreach($info_list as $k=>$v):}-->
+		<li>
+			<div class="li_box">
+				<a href="{pe_url('product-'.$v['product_id'])}" title="{$v['product_name']}">
+					<div class="prolist_logo">
+						<img src="{$pe['host_tpl']}images/pixel.gif" data-url="{pe_thumb($v['product_logo'], 400, 400)}" title="{$v['product_name']}" class="js_imgload" />
+						<!--{if($v['huodong_tag']):}--><div class="prolist_tag">{$v['huodong_tag']}</div><!--{endif;}-->
+					</div>
+				</a>
+				<div class="prolist_name">
+					<p><a href="{pe_url('product-'.$v['product_id'])}" title="{$v['product_name']}">{$v['product_name']}</a></p>
+					<span>¥{product_money($v['product_money'])}</span>
+				</div>
+			</div>
+		</li>
+		<!--{endforeach;}-->
+		</ul>
+		<div class="clear"></div>
+	</div>
+	<div class="fenye mat10 mab10">{$db->page->html}<div class="clear"></div></div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#search_bg").click(function(){
+		$("#search_bg").add(".screen_list").hide();
+		$("body").css("overflow-y", "auto");
+	})
+	$(".screen01").click(function(){
+		$(".screen_list").hide();
+		var _index = $(this).index(".screen01");
+		$(".screen_list:eq("+_index+")").show();
+		$("#search_bg").show().height($(window).height() - 90);
+		$("body").css("overflow-y", "hidden");
+	})
+	$("#category_html .screen_left li").click(function(){
+		$("#category_html .screen_left li").removeClass("sel");
+		$(this).addClass("sel");
+		$(".screen_right").hide();
+		$("#category_select" + $(this).attr("category_id")).show();
+		$("body").css("overflow-y", "auto");
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

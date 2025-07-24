@@ -1,0 +1,32 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="tuan_top"></div>
+<div class="content" style="margin-bottom:60px;">
+	<div class="tuijian_list mat10">
+		<ul>
+		<!--{foreach($info_list as $k=>$v):}-->
+		<li>
+			<div class="li_box">
+				<a href="{pe_url('product-'.$v['product_id'])}" title="{$v['product_name']}">
+					<div class="prolist_logo">
+						<img src="{$pe['host_tpl']}images/pixel.gif" data-url="{pe_thumb($v['product_logo'], 400, 400)}" title="{$v['product_name']}" class="js_imgload" />
+					</div>
+				</a>
+				<div class="prolist_name">
+					<p><a href="{pe_url('product-'.$v['product_id'])}" title="{$v['product_name']}">{$v['product_name']}</a></p>
+					<span>¥{product_money($v['product_money'])}</span>
+					<div class="prolist_pt">{$v['product_ptnum']}人团</div>
+				</div>
+			</div>
+		</li>
+		<!--{endforeach;}-->
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	pe_jstime(".huodong_time", '{time()}', 'html');
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

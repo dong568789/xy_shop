@@ -1,0 +1,63 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main" style="margin-bottom:75px;">
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">暂无信息</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $v):}-->
+	<div class="dingdan_yh mat10" style="padding:0 2px;">
+		<div class="fl yh_l">
+			<div style="padding:10px;">
+				<a href="{pe_url('quan-'.$v['quan_id'])}"  style="display:block; height:20px; overflow:hidden;">{$v['quan_name']}</a>
+				<div class="font12 mat15 c888">{$v['quan_sdate']} 至 {$v['quan_edate']}</div>
+			</div>
+		</div>
+		<div class="fr yh_r" <!--{if($v['quanlog_state']>0):}-->style="background:#aaa"<!--{endif;}-->>
+			<div style="padding:10px;">
+				<p class="yh_price">¥{$v['quan_money']}</p>
+				<div class="mat5">{$v['product_id']?'限定商品':'&nbsp;'}</div>
+				<div class="mat5">满 {$v['quan_limit']} 元可用</div>
+			</div>
+			<!--{if($v['quanlog_state']>0):}-->
+			<div class="yz_0{$v['quanlog_state']}"><i></i></div>
+			<!--{endif;}-->
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<div id="page_quan" class="divhide">
+	<div class="add_tt">兑换优惠券</div>
+	<div class="close_btn" onclick="app_page_close();"></div>
+	<div class="quan_box">
+		<form method="post" id="form">
+		<div class="quan_input"><input type="text" name="quan_key" value="" class="quan_input" placeholder="请输入10位优惠券码" /> </div>
+		<div class="quan_dh">
+			<input type="hidden" name="pesubmit" />
+			<input type="button" value="确认兑换" onclick="duihuan_btn()" />
+		</div>
+		</form>
+	</div>
+</div>
+<div class="fb_btn1"><a href="javascript:app_page('page_quan')">券码兑换</a></div>
+<script type="text/javascript">
+//兑换优惠券
+function duihuan_btn() {
+	app_submit("user.php?mod=quan&act=duihuan", function(json){
+		if (json.result) {
+			app_open('reload', 1000);
+		}
+	});
+}
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

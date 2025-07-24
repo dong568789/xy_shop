@@ -1,0 +1,50 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:history.go(-1)"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="loginbox">
+		<form method="post" id="form">
+		<div class="tip_pwd mat10">新 密 码：</div>
+		<div class="input_box"><input type="text" name="user_pw" class="login_input1" placeholder="请填写您的新密码" /></div>
+		<div class="tip_pwd mat10">确认密码：</div>
+		<div class="input_box"><input type="text" name="user_pw1" class="login_input1" placeholder="请再次填写您的新密码" /></div>
+		<div class="loginbtn">
+			<input type="hidden" name="pesubmit" />
+			<input type="button" value="提 交" />
+		</div>
+		</form>
+		<div class="zh_zc1">
+			<a href="{$pe['host_root']}user.php?mod=do&act=register" class="mar10">免费注册</a> |
+			<a href="{$pe['host_root']}user.php?mod=do&act=login" class="mal10">用户登录</a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		if ($(":input[name='user_pw']").val() == '') {
+			app_tip('请填写新密码');
+			return false;
+		}
+		if ($(":input[name='user_pw1']").val() == '') {
+			app_tip('请填写确认密码');
+			return false;
+		}
+		if ($(":input[name='user_pw']").val() != $(":input[name='user_pw1']").val()) {
+			app_tip('新密码与确认密码不一致');
+			return false;
+		}
+		app_submit('user.php?mod=do&act=setpw&token={$_g_token}', function(json){
+			if (json.result) {
+				app_open('user.php?mod=do&act=login', 1000);	
+			}
+		})
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

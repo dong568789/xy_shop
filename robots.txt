@@ -1,0 +1,13 @@
+#
+# robots.txt 
+#
+User-agent: * 
+Disallow: /data
+Disallow: /hook
+Disallow: /public
+Disallow: /module
+Disallow: /template
+Disallow: /admin
+Disallow: /config.php
+Disallow: /common.php
+Disallow: /order/list

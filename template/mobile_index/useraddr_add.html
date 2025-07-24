@@ -1,0 +1,84 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:app_iframe_close();"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content" style="margin-top:10px">
+	<form method="post" id="form">
+	<div class="zc_box2">
+		<div class="zc_list">
+			<div class="zc_name">收&nbsp;&nbsp;货 人</div>
+			<div class="zc_text"><input type="text" name="user_tname" value="{$info['user_tname']}" placeholder="真实姓名" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">联系电话</div>
+			<div class="zc_text"><input type="text" name="user_phone" value="{$info['user_phone']}" placeholder="手机号码" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">所在地区</div>
+			<div class="zc_text">
+				<input type="text" name="shengshi" value="{$info['address_province']} {$info['address_city']} {$info['address_area']}" placeholder="请选择所在城市" id="shengshi" />
+				<input type="hidden" name="address_province" value="{$info['address_province']}" />
+				<input type="hidden" name="address_city" value="{$info['address_city']}"  />
+				<input type="hidden" name="address_area" value="{$info['address_area']}" />
+			</div>
+			<i class="jt_r"></i>
+		</div>
+		<div class="zc_list zc_textarea">
+			<div class="zc_name">详细地址</div>
+			<div class="zc_text"><textarea type="text" name="address_text" placeholder="详细地址" />{$info['address_text']}</textarea></div>
+		</div>
+		<div class="sh_moren">
+			<label for="default">
+				<input type="checkbox" name="address_default" value="1" <!--{if($info['address_default']):}-->checked="checked"<!--{endif;}--> class="inputfix mar5" id="default" />
+				<span>设为默认地址</span>
+			</label>
+		</div>
+	</div>
+	<div class="loginbtn" style="margin:20px 10px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />	
+		<input type="button" value="保存"  class="tjbtn" />
+	</div>
+	</form>
+</div>
+<script src="{$pe['host_root']}public/plugin/jqweui/city-picker.min.js?v=201809151720"></script>
+<script type="text/javascript">
+$(function(){
+	$("#shengshi").click(function(){
+		$(":input[name='user_tname'],:input[name='user_phone'],:input[name='address_text']").blur();
+	})
+	$("#shengshi").cityPicker({
+		title: "请选择收货地址",
+    	onChange: function (picker, values, displayValues) {//选择后触发的事件
+    		$(":input[name='address_province']").val(displayValues[0]);
+    		$(":input[name='address_city']").val(displayValues[1]);
+    		$(":input[name='address_area']").val(displayValues[2]);
+        }
+	});
+	$(":button").click(function(){
+		if ($(":input[name='user_tname']").val() == '') {
+			app_tip('请填写收货人');
+			return false;
+		}
+		if ($(":input[name='user_phone']").val() == '') {
+			app_tip('请填写手机号码');
+			return false;
+		}
+		if ($(":input[name='address_text']").val() == '') {
+			app_tip('请填写详细地址');
+			return false;
+		}
+		app_submit("{$pe['host_root']}index.php?mod=useraddr&act=add", function(json){
+			if (json.result) {
+				window.parent.useraddr_list(json.id);
+				app_iframe_close(false, 1000);
+			}
+		})
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

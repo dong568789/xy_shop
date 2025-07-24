@@ -1,0 +1,24 @@
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="{$pe['host_root']}"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="fenlei_list">
+		<ul>
+		<li><a href="{pe_url('product-list')}" title="全部商品">全部商品<i></i></a></li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+	<div class="fenlei_list">
+		<ul>
+		<!--{foreach($cache_category_arr[0] as $v):}-->
+		<li><a href="{pe_url('product-list-'.$v['category_id'])}" title="{$v['category_name']}">{$v['category_name']}<i></i></a></li>
+		<!--{endforeach;}-->
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

@@ -1,0 +1,67 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main" style="margin-top:0">
+	<div class="hy_tt">
+		<ul>
+		<li><a href="user.php?mod=refund" <!--{if(!$_g_state):}-->class="sel"<!--{endif;}-->>全部</a></li>
+		<li><a href="user.php?mod=refund&state=wcheck" <!--{if($_g_state=='wcheck'):}-->class="sel"<!--{endif;}-->>待审核</a></li>
+		<li><a href="user.php?mod=refund&state=wsend" <!--{if($_g_state=='wsend'):}-->class="sel"<!--{endif;}-->>待退回</a></li>
+		<li><a href="user.php?mod=refund&state=wget" <!--{if($_g_state=='wget'):}-->class="sel"<!--{endif;}-->>待收货</a></li>
+		<li><a href="user.php?mod=refund&state=refuse" <!--{if($_g_state=='refuse'):}-->class="sel"<!--{endif;}-->>已拒绝</a></li>
+		</ul>
+	</div>
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">暂无信息</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $v):}-->
+	<div class="dingdan_tt" style="font-size:13px">
+		 <span class="fl c666">{pe_date($v['refund_atime'])}</span>
+		 <div class="tkzt">{refund_stateshow($v['refund_state'])}</div>
+		 <div class="clear"></div>
+	</div>
+	<div class="dingdan_info" style="padding:0;">
+		<a href="user.php?mod=refund&act=view&id={$v['refund_id']}" class="order_a">
+			<div class="dingdan_img"><img src="{pe_thumb($v['product_logo'], 100, 100)}" /></div>
+			<div class="dingdan_name" style="line-height:20px;">
+				<div style="height:40px; overflow:hidden; line-height:20px;">{$v['product_name']}</div>
+				<p class="c888 font12">{order_skushow($v['product_rule'])}</p>
+			</div>
+			<div class="dingdan_jg">
+				¥{$v['product_money']}
+				<p class="c999 font12">×{$v['product_num']}</p>
+			</div>
+		</a>
+		<div class="yingfu">
+			<div class="order_yf fr">退款金额：¥ <span class="font16 mar5">{$v['refund_money']}</span> (含运费¥{$v['refund_wl_money']})</div>
+			<div class="clear"></div>
+			<div class="fr" style="padding:8px 10px 10px;">
+				<!--{if(in_array($v['refund_state'], array('wcheck', 'refuse'))):}-->
+				<a class="tag_org" href="javascript:app_iframe('user.php?mod=refund&act=edit&id={$v['refund_id']}');">修改申请</a>
+				<a class="tag_gray mal10" href="javascript:app_confirm('取消退款申请', 'user.php?mod=refund&act=close&id={$v['refund_id']}&token={$pe_token}');">取消申请</a>
+				<!--{elseif($v['refund_state'] == 'wsend'):}-->
+				<a class="tag_org" href="javascript:app_iframe('user.php?mod=refund&act=send&id={$v['refund_id']}');">填写单号</a>
+				<a class="tag_gray mal10" href="javascript:app_confirm('取消退款申请', 'user.php?mod=refund&act=close&id={$v['refund_id']}&token={$pe_token}');">取消申请</a>
+				<!--{endif;}-->
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--<div class="tkzt_btn">
+			<a class="tag_org fr" href="">查看详情</a>
+			<div class="clear"></div>
+		</div>
+		<div class="xuxian2"></div>-->
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

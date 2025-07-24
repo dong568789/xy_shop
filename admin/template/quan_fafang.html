@@ -1,0 +1,34 @@
+<!--{include(pe_tpl('header_dialog.html','admin'));}-->
+<form method="post" id="form" autocomplete="off">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang_bak">
+<tr>
+	<td class="bgtt aright c888" width="100">优惠券名称</td>
+	<td>{$info['quan_name']}</td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">面　　额</td>
+	<td>{$info['quan_money']}元</td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">已发放量</td>
+	<td>{$info['quan_num']}个<span class="c888 mal10">（已领取：{$info['quan_num_get']}个）</span></td>
+</tr>
+<tr>
+	<td class="bgtt aright c888">本次新增</td>
+	<td><input type="text" name="num" class="inputall input100" /> 个 <span id="num_show"></span></td>
+</tr>
+</table>
+<div class="acenter mat20">
+	<input type="hidden" name="pesubmit" />
+	<input type="hidden" name="pe_token" value="{$pe_token}" />
+	<input type="button" value="提 交" class="tjbtn" />
+</div>
+</form>
+<script type="text/javascript" src="{$pe['host_root']}public/js/formcheck.js"></script>
+<script type="text/javascript">
+var form_info = [
+	{"name":"num", "mod":"num", "act":"blur", "arg":"1|", "show_id":"num_show","show_error":"必填", "must":true}
+]
+$(":button").pe_submit(form_info, 'form');
+</script>
+<!--{include(pe_tpl('footer_dialog.html','admin'));}-->

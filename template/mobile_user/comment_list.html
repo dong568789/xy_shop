@@ -1,0 +1,48 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main">
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">暂无信息</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $k=>$v):}-->
+	<!--{$comment_logo = $v['comment_logo'] ? explode(',', $v['comment_logo']) : array()}-->
+	<div class="ask_dd">
+		<ul class="plmain_ul pl_pro">
+			<li class="fl pl_tx"><img src="{pe_thumb($v['user_logo'], '_120', '_120', 'avatar')}"></li>
+			<li class="fl mat2 font12">{$v['user_name']}<p class="cbbb mat3">{pe_date($v['comment_atime'])}</p></li>
+			<li class="fr c999 font12" style="line-height:26px">{pe_comment($v['comment_star'])}</li>
+		</ul>
+		<div class="clear"></div>
+		<p class="pingjia">{$v['comment_text']}</p>
+		<div class="shaitu">
+			<ul>
+			<!--{foreach($comment_logo as $kk=>$vv):}-->
+			<li><div class="li_box"><a href="javascript:app_iframe('{pe_url('comment-logo', 'id='.$v['comment_id'].'&num='.$kk)}')"><img src="{pe_thumb($vv, '_400', '_400')}" /></a></div></li>
+			<!--{endforeach;}-->
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<!--{if($v['comment_reply']):}-->
+		<div class="mjpj">商家回复：{$v['comment_reply_text']}<div class="mat5 font12">{pe_date($v['comment_reply_time'])}</div></div>
+		<!--{endif;}-->
+		<div class="pj_pro mat10">
+			<div class="dingdan_img"><a href="{pe_url('product-'.$v['product_id'])}"><img src="{pe_thumb($v['product_logo'], 100, 100)}" class="imgbg" /></a></div>
+			<div class="dingdan_name">
+				<p style="padding-top:10px;"><a href="{pe_url('product-'.$v['product_id'])}">{$v['product_name']}</a></p>
+			</div>
+			<div class="clear"></div>
+		</div>	
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

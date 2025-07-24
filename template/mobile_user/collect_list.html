@@ -1,0 +1,34 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main">
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">暂无信息</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $k=>$v):}-->
+	<div class="ask_dd pageid">
+		<div style="min-height:55px;">
+			<div class="dingdan_img"><a href="{pe_url('product-'.$v['product_id'])}"><img src="{pe_thumb($v['product_logo'], 100, 100)}" /></a></div>
+			<div class="dingdan_name" style="margin-right:0">
+				<p><a href="{pe_url('product-'.$v['product_id'])}">{$v['product_name']}</a></p>
+				<div class="num corg mat5">¥{$v['product_money']}</div>
+			</div>
+		</div>
+		<div class="fl mat10 cbbb font12">{pe_date($v['collect_atime'])}</div>
+		<div class="fr mat8">
+			<a href="user.php?mod=collect&act=del&id={$v['collect_id']}&token={$pe_token}" onclick="return app_delinfo(this, '删除此收藏')" class="edit_btn">删除</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

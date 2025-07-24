@@ -1,0 +1,44 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="fenhong_box">
+	<div class="zh_jf"><i></i></div>
+	<div class="">积分余额</div>
+	<div class="fh_money">{$user['user_point']}</div>
+</div>
+<div class="main">
+	<div class="tx_tt"><i></i>积分明细</div>
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">暂无信息</div>
+	</div>
+	<!--{endif;}-->
+	<div class="jf_box" style="margin-top:0">
+		<!--{foreach($info_list as $k=>$v):}-->
+		<div class="jf_list">
+			<div class="jifen_l">
+				<p>{$v['pointlog_text'] ? $v['pointlog_text'] : $ini['pointlog_type'][$v['pointlog_type']]}</p>
+				<span class="c999">{pe_date($v['pointlog_atime'])}</span>
+			</div>
+			<div class="jifen_r">
+				<p>
+				<!--{if($v['pointlog_in'] > 0):}-->
+				<span class="num cgreen">+{$v['pointlog_in']}</span>
+				<!--{else:}-->
+				<span class="num">-{$v['pointlog_out']}</span>			
+				<!--{endif;}-->
+				</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--{endforeach;}-->
+	</div>
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

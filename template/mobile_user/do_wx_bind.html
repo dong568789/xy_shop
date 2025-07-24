@@ -1,0 +1,24 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<style>body{background:#FFF!important;}</style>
+<div class="login_top">
+	<div class="zc_tt" style="color:#000;">微信绑定</div>
+	<div class="top_dl"><img src="{pe_thumb($cache_setting['wap_logo'])}"></div>
+	
+</div>
+<div style="text-align:center;">
+	正在跳转中...
+	
+</div>
+<script type="text/javascript">
+$(function(){
+	if ('{$bind_result}' == 'ok'){
+		app_tip('微信绑定成功', 'success');
+		app_open("{$pe['host_root']}index.php?mod=product&act={$_g_pro_id}", 1000);
+	}else{
+		app_tip('该微信已绑定过其他帐号', 'error');
+		app_open("{$pe['host_root']}index.php?mod=product&act={$_g_pro_id}", 2000);
+	}
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

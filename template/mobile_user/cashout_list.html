@@ -1,0 +1,49 @@
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=moneylog"></a></div>
+	<div>Chiqim arizasi</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="lb_sx">
+		<a href="{$pe['host_root']}user.php?mod=cashout&act=add" <!--{if($act=='add'):}-->class="sel"<!--{endif;}-->>Chiqimni talab qilish</a>
+		<a href="{$pe['host_root']}user.php?mod=cashout" <!--{if($act=='index'):}-->class="sel"<!--{endif;}-->>Chiqim yozuvi</a>
+		<div class="lb_xian"></div>
+		<div class="clear"></div>
+	</div>
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">Ma`lumot yo`q</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $k=>$v):}-->
+	<div class="user_box_zh mat10 pageid" style="border-bottom:0">
+		<div class="add_list">
+			<span class="fl">{$v['cashout_bankname']}（{userbank_num($v['cashout_banknum'])}）</span>
+			<span class="fr"><span class="num">{$v['cashout_money']+$v['cashout_fee']}</span><span class="font14">сум</span></span>
+			<div class="clear"></div>
+			<span class="mat10 c999 fl">{pe_date($v['cashout_atime'])}</span>
+			<!--{if($v['cashout_state'] == 1):}-->
+			<span class="mat10 cgreen fr">Oʻrnatildi</span>
+			<!--{elseif($v['cashout_state'] == 2):}-->
+			<del class="mat10 c999 fr">Bekor qilingan</del>
+			<!--{else:}-->
+			<span class="mat10 cred fr">Ko‘rib chiqish kutilmoqda</span>
+			<!--{endif;}-->
+			<div class="clear"></div>
+			<!--{if(!$v['cashout_state']):}-->
+			<div class="xian"></div>
+			<div class="fr mat10">
+				<a href="javascript:app_confirm('Bu yechib olishni bekor qiling', 'user.php?mod=cashout&act=del&id={$v['cashout_id']}&token={$pe_token}');" class="edit_btn">Bekor qilish</a>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<!--{endif;}-->
+		</div>
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

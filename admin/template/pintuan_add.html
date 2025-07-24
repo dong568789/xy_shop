@@ -1,0 +1,92 @@
+
+<!--{include(pe_tpl('header.html','admin'));}-->
+<div class="right">
+	<div class="now">
+		<a href="javascript:;" class="sel">{$menutitle}<i></i></a>
+		<div class="clear"></div>
+	</div>
+	<form method="post" id="form">
+	<div class="right_main">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang mat20 mab20">
+		<tr>
+			<td align="right" width="150">活动标签：</td>
+			<td>{$info['huodong_tag']}<input type="hidden" name="huodong_tag" value="{$info['huodong_tag']}" /></td>
+		</tr>
+		<tr>
+			<td align="right">有效日期：</td>
+			<td>
+				<input type="text" name="huodong_stime" value="{pe_date($info['huodong_stime'] ? $info['huodong_stime'] : time())}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate inputall input150" />
+				<span class="mal5 mar5">至</span>
+				<input type="text" name="huodong_etime" value="{pe_date($info['huodong_etime'] ? $info['huodong_etime'] : time())}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate inputall input150" />
+			</td>
+		</tr>
+		</table>
+	</div>
+	<div class="now">
+		<a href="javascript:;" class="sel">拼团商品<i></i></a>
+		<!--{if($act=='add'):}-->
+		<a href="webadmin.php?mod=pintuan&act=product_list&id={$info['pintuan_id']}" onclick="return pe_dialog(this, '选择商品', 900, 600)" id="fabu">选择商品</a>
+		<!--{endif;}-->
+		<div class="clear"></div>
+	</div>
+	<div class="right_main">
+		<table border="0" cellspacing="0" cellpadding="0" class="list">
+		<tr>
+			<th class="bgtt" width="50">ID号</th>
+			<th class="bgtt" width="40"></th>
+			<th class="bgtt" width="">商品名称</th>
+			<th class="bgtt" width="150">原价(元)</th>
+			<th class="bgtt" width="200">拼团价(元)</th>
+			<th class="bgtt" width="200">成团人数</th>
+		</tr>
+        
+		<tbody id="product_list">
+		<script type="text/html" id="product_list_tpl">
+		{{each info_list as v k}}
+		<tr>
+			<td>{{v.product_id}}<input type="hidden" name="product_id" value="{{v.product_id}}" /></td>
+			<td><img src="{{v.product_logo}}" width="40" height="40" class="imgbg" /></td>
+			<td class="aleft"><a href="{{v.product_url}}" target="_blank" class="cblue">{{v.product_name}}</a></td>
+			<td>{{v.product_smoney}}</td>
+			<td><input type="text" name="product_money" value="{{v.product_money}}" class="inputall input100 center" /></td>
+			<td><input type="text" name="product_ptnum" value="{{v.product_ptnum}}" class="inputall input100 center" /></td>
+		</tr>
+		{{/each}}
+		</script>
+		</tbody>
+		</table>
+	</div>
+	<div class="center mat20 mab10">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />		
+		<input type="button" value="提 交" class="tjbtn" />	
+	</div>
+	</form>
+</div>
+<script type="text/javascript" src="{$pe['host_root']}public/plugin/my97/WdatePicker.js"></script>
+<script type="text/javascript">
+$(function(){
+	add_product('product_info', '{$huodong_id}');
+	$(":button").click(function(){
+		if (!$(":input[name='product_id']").val()) {
+			pe_tip('请选择拼团商品');
+			return false;
+		}
+		if (!$(":input[name='product_money']").val()) {
+			pe_tip('请填写拼团价格');
+			return false;
+		}
+		if (!$(":input[name='product_ptnum']").val()) {
+			pe_tip('请填写成团人数');
+			return false;
+		}
+		$("#form").submit();
+	})
+})
+function add_product(act, id) {
+	pe_getinfo('webadmin.php?mod=pintuan&act='+act+'&id='+id, function(json){
+		pe_jsontpl('product_list', json);
+	})	
+}
+</script>
+<!--{include(pe_tpl('footer.html','admin'));}-->

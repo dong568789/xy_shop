@@ -1,0 +1,73 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main" style="margin-top:0">
+	<div class="hy_tt">
+		<ul>
+		<li><a href="{$pe['host_root']}user.php?mod=order" <!--{if(!$_g_state):}-->class="sel"<!--{endif;}-->>Jami</a></li>
+		<li><a href="{$pe['host_root']}user.php?mod=order&state=recycle" <!--{if($_g_state=='recycle'):}-->class="sel"<!--{endif;}-->>Jarayonda</a></li>
+		<li><a href="{$pe['host_root']}user.php?mod=order&state=success" <!--{if($_g_state=='success'):}-->class="sel"<!--{endif;}-->>Bajarildi</a></li>
+		<li><a href="{$pe['host_root']}user.php?mod=order&state=close" <!--{if($_g_state=='close'):}-->class="sel"<!--{endif;}-->>Bekor qilindi</a></li>
+	
+		</ul>
+	</div>
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">Hozircha ma'lumot yo'q</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $v):}-->
+	<div class="dingdan_tt" style="font-size:13px">
+		 <span class="fl c666">{pe_date($v['order_atime'])}</span>
+		 <span class="fr">{order_stateshow($v['order_state'])}</span>
+		 <div class="clear"></div>
+	</div>
+	<div class="dingdan_info" style="padding:0;">
+		<!--{foreach($v['product_list'] as $kk=>$vv):}-->
+		<a href="user.php?mod=order&act=view&id={$v['order_id']}" class="order_a">
+			<div class="dingdan_img"><img src="{pe_thumb($vv['product_logo'], 100, 100)}" /></div>
+			<div class="dingdan_name" style="line-height:20px;">
+				<div style="height:40px; overflow:hidden; line-height:20px;width:212px;">
+					<!--{if($v['order_type']=='pintuan'):}--><span class="tag_pintuan">Guruh almashish</span><!--{endif;}-->
+					{$vv['product_name']}
+				</div>
+				<p class="c888 font12">{order_skushow($vv['product_rule'])}</p>
+			</div>
+			<div class="dingdan_jg">
+				{$vv['product_money']} сум
+				<div class="c999 font12">×{$vv['product_num']}</div>
+				<div class="font12">{refund_stateshow($vv['refund_state'])}</div>
+			</div>
+		</a>
+		<div class="xuxian2"></div>
+		<!--{endforeach;}-->
+		<div class="yingfu">
+			<div class="order_yf fr">jami： <span class="font16 mar5">{$v['order_money']} сум</span> </div>
+			<div class="clear"></div>
+			<div class="fr" style="padding:8px 10px 10px;">
+				<!--{if($v['order_state'] == 'wpay'):}-->
+				<a class="tag_org fl" href="index.php?mod=order&act=pay&id={$v['order_id']}">Hozir toʻlang</a>
+				<a class="tag_gray fl mal10" href="javascript:app_iframe('user.php?mod=order&act=close&id={$v['order_id']}')">Buyurtmani bekor qilish</a>
+				<!--{elseif($v['order_state'] == 'wget' && $v['order_payment'] != 'cod'):}-->
+				<!--<a class="tag_org fl" href="javascript:app_confirm('已收到商品', 'user.php?mod=order&act=success&id={$v['order_id']}&token={$pe_token}');">确认收货</a>-->
+				<!--{elseif($v['order_state'] == 'success' && !$v['order_comment']):}-->
+				<!--<a class="tag_org fl" href="user.php?mod=order&act=comment&id={$v['order_id']}&{pe_fromto()}">评价</a>-->
+				<!--{endif;}-->
+				<!--{if($v['pintuan_id'] && $v['order_pstate']):}-->
+				<a class="tag_gray fl mal10" href="index.php?mod=order&act=pintuan&id={$v['pintuan_id']}">拼团详情</a>
+				<!--{endif;}-->
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

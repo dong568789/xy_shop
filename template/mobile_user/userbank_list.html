@@ -1,0 +1,36 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>Bank kartasi hisobi</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content" style="margin-bottom:75px;">
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">Hozircha ma'lumot yo'q</div>
+	</div>
+	<!--{endif;}-->
+	<!--{foreach($info_list as $v):}-->
+	<div class="user_box_zh mat10 pageid" style="border-bottom:0;">
+		<div class="add_list">
+			<span class="fl">{$v['userbank_name']}（{userbank_num($v['userbank_num'])}）</span>
+			<span class="fr">{$v['userbank_tname']}</span>
+			<div class="clear"></div>
+			<!--{if($v['userbank_address']):}-->
+			<div class="mat5 c999">{$v['userbank_address']}</div>
+			<!--{endif;}-->
+			<div class="xian"></div>
+			<div class="fr mat10">
+				<a href="user.php?mod=userbank&act=del&id={$v['userbank_id']}&token={$pe_token}" onclick="return app_delinfo(this, 'Ushbu hisobni o'chirib tashlang')" class="edit_btn">o'chirish</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{endforeach;}-->
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<div class="fb_btn1"><a href="user.php?mod=userbank&act=add">Yangi hisob qo'shing</a></div>
+<!--{include(pe_tpl('footer.html'));}-->

@@ -1,0 +1,114 @@
+<!--{include(pe_tpl('header.html','admin'));}-->
+<div class="right">
+	<div class="now">
+		<a href="javascript:;" class="sel">{$menutitle}<i></i></a>
+		<div class="clear"></div>
+	</div>
+	<div class="right_main">
+		<form method="post" id="form">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang mat20 mab20">
+		<tr>
+			<td align="right" width="150">商品名称：</td>
+			<td>{$info['product_name']}</td>
+		</tr>
+		<tr>
+			<td align="right">发放方式：</td>
+			<td>
+				<select name="info[prokey_type]" class="inputselect" style="width:212px">
+				<!--{foreach(array('one'=>'固定卡密，重复发放', 'more'=>'不定卡密，逐条发放') as $k=>$v):}-->
+				<option value="{$k}" <!--{if($k==$info['prokey_type']):}-->selected="selected"<!--{endif;}-->>{$v}</option>
+				<!--{endforeach;}-->
+				</select>	
+			</td>
+		</tr>
+		<tr class="type_one">
+			<td align="right">固定卡号：</td>
+			<td><input type="text" name="info[prokey_user]" value="{$info['prokey_user']}" class="inputall input200" /></td>
+		</tr>
+		<tr class="type_one">
+			<td align="right">固定密码：</td>
+			<td><input type="text" name="info[prokey_pw]" value="{$info['prokey_pw']}" class="inputall input200" /></td>
+		</tr>
+		<tr class="type_one">
+			<td align="right">有效期至：</td>
+			<td><input type="text" name="info[prokey_edate]" value="{$info['prokey_edate']}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate inputall input200"  /></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+				<input type="hidden" name="pesubmit" />
+				<input type="hidden" name="pe_token" value="{$pe_token}" />
+				<input type="button" value="提 交" class="tjbtn" />
+			</td>
+		</tr>
+		</table>
+		</form>
+	</div>
+	<div class="now">
+		<a href="javascript:;" class="sel">卡密列表（<span id="product_num">{$tongji['all']}</span>）<i></i></a>
+		<a href="webadmin.php?mod=prokey&act=add&id={$product_id}" id="fabu" onclick="return pe_dialog(this, '手动录入卡密', 900, 600)">手动录入</a>
+		<a href="webadmin.php?mod=prokey&act=import&id={$product_id}" id="fabu" onclick="return pe_dialog(this, '批量导入卡密', 500, 230)">批量导入</a>
+		<div class="clear"></div>
+	</div>
+	<div class="right_main">
+		<table border="0" cellspacing="0" cellpadding="0" class="list" id="product_list">
+		<tr>
+			<th class="bgtt" width="50">ID号</th>
+			<th class="bgtt" width="150">卡号</th>
+			<th class="bgtt" width="150">密码</th>
+			<th class="bgtt" width="150">有效期至</th>
+			<th class="bgtt">订单ID</th>
+			<th class="bgtt" width="150">状态</th>
+			<th class="bgtt" width="110">操作</th>
+		</tr>
+		<!--{foreach($info_list as $v):}-->
+		<tr>
+			<td>{$v['prokey_id']}</td>
+			<td>{$v['prokey_user']}</td>
+			<td>{$v['prokey_pw']}</td>
+			<td>{$v['prokey_edate']}</td>
+			<td>{$v['order_id']?$v['order_id']:'-'}</td>
+			<td>
+				<!--{if($v['prokey_state'] == 'new'):}-->
+				<span class="">未使用</span>
+				<!--{elseif($v['prokey_state'] == 'success'):}-->
+				<span class="cgreen">已使用</span>			
+				<!--{elseif($v['prokey_state'] == 'expire'):}-->
+				<s class="cbbb">已过期</s>
+				<!--{endif;}-->			
+			</td>
+			<td>
+				<a href="webadmin.php?mod=prokey&act=edit&id={$v['prokey_id']}" class="admin_edit mar3" onclick="return pe_dialog(this, '修改卡密', 500, 280)">修改</a>
+				<a href="webadmin.php?mod=prokey&act=del&id={$v['prokey_id']}&token={$pe_token}" class="admin_del mar3" onclick="return pe_cfone(this, '删除')">删除</a>
+			</td>
+		</tr>
+		<!--{endforeach;}-->
+		</table>
+	</div>
+	<div class="right_bottom">
+		<span class="fr fenye">{$db->page->html}</span>
+		<div class="clear"></div>
+	</div>
+</div>
+<script type="text/javascript" src="{$pe['host_root']}public/plugin/my97/WdatePicker.js"></script>
+<script type="text/javascript">
+$(function(){
+	prokey_type();
+	$(":input[name='info[prokey_type]']").change(function(){
+		prokey_type();
+	})
+	$(":button").click(function(){
+		$("form").submit();
+		
+	})
+})
+function prokey_type() {
+	if ($(":input[name='info[prokey_type]']").val() == 'one') {
+		$(".type_one").show();
+	}
+	else {
+		$(".type_one").hide();
+	}
+}
+</script>
+<!--{include(pe_tpl('footer.html','admin'));}-->

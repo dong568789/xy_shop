@@ -1,0 +1,33 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="{$pe['host_root']}"></a></div>
+	<div>{$ini['class_type'][$class_type]}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="subnav1">
+		<!--{if(is_array($cache_class_arr[$class_type])):}-->
+		<!--{foreach($cache_class_arr[$class_type] as $v):}-->
+		<a href="{pe_url('article-list-'.$v['class_id'])}" title="{$v['class_name']}" <!--{if($class_id==$v['class_id']):}-->class="sel"<!--{endif;}-->>{$v['class_name']}</a> 
+		<!--{endforeach;}-->
+		<!--{endif;}-->
+		<div class="clear"></div>
+	</div>
+	<div class="fenlei_list zx_list">
+		<ul>
+		<!--{foreach($info_list as $k=>$v):}-->
+		<li>
+			<a href="{pe_url('article-'.$v['article_id'])}" title="{$v['article_name']}">
+			{$v['article_name']}<p class="cbbb font12 num">{pe_date($v['article_atime'])}</p>
+			</a>
+			<i></i>
+		</li>
+		<!--{endforeach;}-->
+		</ul>
+		<div class="clear"></div>
+	</div>
+	<div class="fenye mat10">{$db->page->html}<div class="clear"></div></div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

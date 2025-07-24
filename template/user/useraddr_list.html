@@ -1,0 +1,38 @@
+<!--{include(pe_tpl('header.html'));}-->
+<div class="huiyuan_content">
+	<!--{include(pe_tpl('user_menu.html'));}-->
+	<div class="fr huiyuan_main">
+		<div class="hy_tt">
+			<a href="javascript:;" class="sel">{$menutitle}<span>({$tongji['all']})</span><i></i></a>
+			<a href="user.php?mod=useraddr&act=add" class="fabu_btn">Yangi manzil qo'shing</a>
+			<div class="clear"></div>
+		</div>
+		<div class="hy_tablelist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<th width="100">qabul qiluvchi</th>
+				<th width="120">telefon raqami</th>
+				<th>Yetkazib berish manzili</th>
+				<th width="130">ishlaydi</td>
+			</tr>
+			<!--{foreach($info_list as $v):}-->
+			<tr>
+				<td>{$v['user_tname']}</td>
+				<td>{$v['user_phone']}</td>
+				<td class="aleft">
+					<!--{if($v['address_default']):}--><span class="cred">[standart]</span><!--{endif;}-->
+					{$v['address_province']} {$v['address_city']} {$v['address_area']} {$v['address_text']}
+				</td>
+				<td>
+					<a href="user.php?mod=useraddr&act=edit&id={$v['address_id']}" class="tag_gray mar5">Qayta ko'rib chiqish</a>
+					<a href="javascript:pe_confirm('Ushbu manzilni o'chirib tashlang', 'user.php?mod=useraddr&act=del&id={$v['address_id']}&token={$pe_token}')" class="tag_gray">o'chirish</a>				
+				</td>
+			</tr>
+			<!--{endforeach;}-->
+			</table>
+		</div>
+		<div class="fenye mat10">{$db->page->html}</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

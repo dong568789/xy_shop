@@ -1,0 +1,110 @@
+
+<!--{include(pe_tpl('header.html','admin'));}-->
+<div class="right">
+	<div class="now">
+		<a href="javascript:;" class="sel">{$menutitle}<i></i></a>
+		<div class="clear"></div>
+	</div>
+	<form method="post" id="form">
+	<div class="right_main">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhang mat20 mab20">
+		<tr>
+			<td align="right" width="150">活动标签：</td>
+			<td>			
+				<input type="text" name="info[huodong_tag]" value="{$info['huodong_tag']}" class="inputall input150" />
+				<span class="c999 mal10">（推荐标签：
+				<!--{foreach($ini['huodong_tag'] as $v):}-->
+				<a href="javascript:;" class="huodong_tag cblue" style="text-decoration:underline">{$v}</a>
+				<!--{endforeach;}-->）</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">有效日期：</td>
+			<td>
+				<input type="text" name="info[huodong_stime]" value="{pe_date($info['huodong_stime'] ? $info['huodong_stime'] : time())}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate inputall input150" />
+				<span class="mal5 mar5">至</span>
+				<input type="text" name="info[huodong_etime]" value="{pe_date($info['huodong_etime'] ? $info['huodong_etime'] : time())}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate inputall input150" />
+			</td>
+		</tr>
+		<tr>
+			<td align="right">活动说明：</td>
+			<td><input type="text" name="info[huodong_desc]" value="{$info['huodong_desc']}" class="inputall input350" /></td>
+		</tr>
+		</table>
+	</div>
+	<div class="now">
+		<a href="javascript:;" class="sel">参与商品（<span id="product_num">{count($info_list)}</span>）<i></i></a>
+		<a href="webadmin.php?mod=zhekou&act=product_list&id={$info['huodong_id']}" onclick="return pe_dialog(this, '选择活动商品', 1000, 550)" id="fabu">选择商品</a>
+		<input type="button" value="批量设置折扣" id="zk_btn" class="fr" style="margin:10px 180px 0 0" />
+		<div class="clear"></div>
+	</div>
+	<div class="right_main">
+		<table border="0" cellspacing="0" cellpadding="0" class="list" id="product_list">
+		<tr>
+			<th class="bgtt" width="50">ID号</th>
+			<th class="bgtt" width="40"></th>
+			<th class="bgtt" width="">商品名称</th>
+			<th class="bgtt" width="100">原价(元)</th>
+			<th class="bgtt" width="150">折扣&nbsp;&nbsp;&nbsp;&nbsp;</th>
+			<th class="bgtt" width="100">折后价(元)</th>
+			<th class="bgtt" width="100">操作</th>
+		</tr>
+		<!--{foreach($info_list as $v):}-->
+		<tr class="js_product" id="{$v['product_id']}" product_smoney="{$v['product_smoney']}">
+			<td>{$v['product_id']}<input type="hidden" name="product_id[]" value="{$v['product_id']}" /></td>
+			<td><img src="{pe_thumb($v['product_logo'], 100, 100)}" width="40" height="40" class="imgbg" /></td>
+			<td class="aleft"><a href="{pe_url('product-'.$v['product_id'])}" target="_blank" class="cblue">{$v['product_name']}</a></td>
+			<td>{$v['product_smoney']}</td>
+			<td><input type="text" name="product_zhe[{$v['product_id']}]" value="{$v['product_zhe']}" class="inputall input40 center js_zhe" /> 折</td>
+			<td><span class="js_money corg">{$v['product_money']}</span></td>
+			<td><a href="javascript:;" class="admin_btn">删除</a></td>
+		</tr>
+		<!--{endforeach;}-->
+		</table>
+	</div>
+	<div class="center mat20 mab10">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="submit" name="pesubmit" value="提 交" class="tjbtn" />		
+	</div>
+	</form>
+</div>
+<script type="text/javascript" src="{$pe['host_root']}public/plugin/my97/WdatePicker.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#product_list .admin_btn").live("click", function(){
+		$(this).parents("tr").remove();
+		$("#product_num").html($(".js_product").length);
+	})
+	$(".huodong_tag").click(function(){
+		$(":input[name='info[huodong_tag]']").val($(this).text());
+	})
+	/*$(".js_zhe").each(function(){
+		js_money($(this));
+	})*/
+	$(".js_zhe").live("keyup", function(){
+		js_money($(this));
+	})
+	$("#zk_btn").click(function(){
+		var _val = prompt('批量打折（如：打85折，请输入8.5折）\n\n');  
+	    if (_val == '') {  
+	        alert('请输入折扣值'); 
+	        return false;
+	    }
+	    $(".js_zhe").val(pe_num(_val, 'floor', 1));
+		$(".js_zhe").each(function(){
+			js_money($(this));
+		})
+	})
+	/*$(".js_money").keyup(function(){
+		var _tr = $(this).parents("tr");
+		var zhe = pe_num(pe_num($(this).val(), 'floor', 1) / pe_num(_tr.attr("product_money"), 'floor', 1) * 100 , 'int');
+		_tr.find(".js_zhe").val(zhe);
+	})*/
+})
+function js_money(_this) {
+	var _tr = _this.parents("tr");
+	var money = pe_num(pe_num(_this.val(), 'floor', 1)/10 * pe_num(_tr.attr("product_smoney"), 'floor', 1), 'round', 1);
+	_tr.find(".js_money").text(money);
+}
+</script>
+<!--{include(pe_tpl('footer.html','admin'));}-->

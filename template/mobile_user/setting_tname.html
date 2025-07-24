@@ -1,0 +1,32 @@
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=setting&act=base"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main">
+	<form method="post" id="form">
+	<div class="zc_box2">
+		<div class="zc_list">
+			<div class="zc_name">真实姓名</div>
+			<div class="zc_text"><input type="text" name="user_tname" value="{$info['user_tname']}" /></div>
+		</div>
+	</div>	
+	<div class="loginbtn"  style="margin:20px 10px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />
+		<input type="button" value="提 交" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		app_submit("{pe_nowurl()}", function(json){
+			if (json.result) app_open('user.php?mod=setting&act=base', 1000);
+		});
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

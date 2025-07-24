@@ -1,0 +1,50 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php"></a></div>
+	<div>Moliyaviy tafsilotlar</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="fenhong_box">
+	<div class="zh_jb"><i></i></div>
+	<div class="">Hisob balansi</div>
+	<div class="fh_money"><span class="font20"></span>{$user['user_money']} сум</div>
+</div>
+<div class="tx_ul">
+	<ul>
+		<!--<li class="side_i9"><a href="user.php?mod=pay">充值<span></span><i></i></a></li>-->
+		<li class="side_i10"><a href="user.php?mod=cashout&act=add">Pulni yechib olish<span></span><i></i></a></li>
+	</ul>
+</div>
+<div class="main">
+	<div class="tx_tt"><i></i>Moliyaviy tafsilotlar</div>
+	<!--{if(!count($info_list)):}-->
+	<div class="nodata">
+		<div class="nodata_img"></div>
+		<div class="nodata_tip">Hozircha ma'lumot yo'q</div>
+	</div>
+	<!--{endif;}-->
+	<div class="jf_box" style="margin-top:0">
+		<!--{foreach($info_list as $k=>$v):}-->
+		<div class="jf_list">
+			<div class="jifen_l">
+				<p>{$v['moneylog_text'] ? $v['moneylog_text'] : $ini['moneylog_type'][$v['moneylog_type']]}</p>
+				<span class="c888">{pe_date($v['moneylog_atime'])}</span>
+			</div>
+			<div class="jifen_r">
+				<p>
+				<!--{if($v['moneylog_in'] > 0):}-->
+				<span class="num cgreen">+{$v['moneylog_in']}</span>
+				<!--{else:}-->
+				<span class="num">-{$v['moneylog_out']}</span>			
+				<!--{endif;}-->
+				</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--{endforeach;}-->
+	</div>
+	<div class="fenye mab10">{$db->page->html}</div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->

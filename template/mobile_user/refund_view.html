@@ -1,0 +1,80 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:app_open('back');"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="th_box">
+	<div class="">{refund_stateshow($info['refund_state'], 'text')}</div>
+	<!--<div class="font12">还剩2018年5月15日 10:52</div>-->
+	<i></i>
+</div>
+<div class="tk_je">
+	<span class="fl">退款金额</span>
+	<span class="fr corg font12"><span class="font16">¥{$info['refund_money']}</span> (含运费¥{$info['refund_wl_money']})</span>
+	<div class="clear"></div>
+</div>
+<div class="main" style="margin-top:0; margin-bottom:55px;">
+	<div class="dingdan_tt3"><span>商品信息</span></div>
+	<div class="order_a">
+		<div class="dingdan_img"><a href="{pe_url('product-'.$info['product_id'])}"><img src="{pe_thumb($info['product_logo'], 100, 100)}" /></a></div>
+		<div class="dingdan_name">
+			<p style="height:40px; overflow:hidden;"><a href="{pe_url('product-'.$info['product_id'])}">{$info['product_name']}</a></p>
+			<p class="c888 font12">{order_skushow($info['product_rule'])}</p>
+		</div>
+		<div class="dingdan_jg">
+			<p>¥{$info['product_money']}</p>
+			<p class="c999 font12">×{$info['product_num']}</p>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="xuxian2"></div>
+	<div class="dingdan_info">
+		<div><span class="c999">订单编号：</span>{$info['order_id']}</div>
+		<div><span class="c999">退款编号：</span>{$info['refund_id']}</div>
+		<div><span class="c999">退款类型：</span>{$ini['refund_type'][$info['refund_type']]}</div>
+	</div>
+	<!--{if($info['refund_type'] == 2 && $info['refund_address']):}-->
+	<div class="dingdan_tt3"><span>退货信息</span></div>
+	<div class="dingdan_info">
+		<div><span class="c999">退货地址：</span>{$info['refund_tname']}，{$info['refund_phone']}，{$info['refund_address']}</div>
+		<div><span class="c999">物流信息：</span><!--{if($info['refund_wl_name']):}--><a href="{pe_url('order-kuaidi', 'id='.$info['refund_wl_id'])}" target="_blank" class="tag_kd">{$info['refund_wl_name']}：{$info['refund_wl_id']}</a><!--{else:}-->--<!--{endif;}--></div>
+	</div>
+	<!--{endif;}-->
+	<div class="dd_ls">
+		<div class="dingdan_tt3"><span>协商历史</span></div>
+		<!--{foreach($refundlog_list as $v):}-->
+		<div class="ls_box">
+			<span class="fl"><!--{if($v['user_id']):}--><span class="cgreen">{$v['user_name']}</span><!--{else:}--><span class="corg">商家</span><!--{endif;}--></span>
+			<span class="fr c888 font12">{pe_date($v['refundlog_atime'])}</span>
+			<div class="clear"></div>
+			<div class="ls_info mat5">{$v['refundlog_text']}</div>
+		</div>
+		<!--{endforeach;}-->
+	</div>
+</div>
+<div class="zt_bot">
+	<div style="padding:0 10px;">
+		<!--{if(in_array($info['refund_state'], array('wcheck', 'refuse'))):}-->
+		<a class="tag_org mar10" href="javascript:app_iframe('user.php?mod=refund&act=edit&id={$info['refund_id']}')">修改申请</a>
+		<a class="tag_gray mar10" href="javascript:app_confirm('取消退款申请', 'user.php?mod=refund&act=close&id={$info['refund_id']}&token={$pe_token}');">取消申请</a>
+		<!--{elseif($info['refund_state'] == 'wsend'):}-->
+		<a class="tag_org mar10" href="javascript:app_iframe('user.php?mod=refund&act=send&id={$info['refund_id']}')">填写单号</a>
+		<a class="tag_gray mar10" href="javascript:app_confirm('取消退款申请', 'user.php?mod=refund&act=close&id={$info['refund_id']}&token={$pe_token}');">取消申请</a>
+		<!--{endif;}-->
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	if ($(".zt_bot a").length == 0) {
+		$(".zt_bot").remove();
+		$(".dd_ls").css("margin-bottom", "10px");
+	}
+})
+</script>
+<style type="text/css">
+body{background:#e8e8ed}
+</style>
+<!--{include(pe_tpl('footer.html'));}-->

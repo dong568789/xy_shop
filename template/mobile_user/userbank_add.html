@@ -1,0 +1,104 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=userbank"></a></div>
+	<div>Yangi hisob qo`shildi</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<form method="post" id="form">
+<div class="main">
+	<div class="zc_box2">
+		<div class="zc_list">
+			<div class="zc_name">Hisob turi</div>
+			<div class="zc_text" id="userbank_type_show" onclick="app_page('page_userbank_type')">
+				<select name="userbank_type" class="inputselect_m divhide">
+				<!--{foreach($ini['userbank_type'] as $k=>$v):}-->
+				<option value="{$k}">{$v}</option>
+				<!--{endforeach;}-->
+				</select>
+			</div>
+			<i class="jt_r"></i>
+		</div>
+		<div class="zc_list" id="userbank_address">
+			<div class="zc_name">Bank nomi</div>
+			<div class="zc_text"><input type="text" name="userbank_address" class="zc_input1" value="" placeholder="" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">Karta raqami</div>
+			<div class="zc_text"><input type="text" name="userbank_num" class="zc_input1" value="" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_name">Ism</div>
+			<div class="zc_text"><input type="text" name="userbank_tname" class="zc_input1" value="" /></div>
+		</div>
+	</div>
+	<div class="loginbtn" style="margin:20px 10px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />	
+		<input type="button" value="Yuborish" />
+	</div>
+</div>
+<div id="page_userbank_type" class="divhide">
+	<div class="add_tt">Hisob turini tanlang</div>
+	<div class="close_btn" onclick="app_page_close();"></div>
+	<div>
+		<!--{foreach($ini['userbank_type'] as $k=>$v):}-->
+		<label class="add_sel js_radio" for="userbank_type_{$k}">
+			<input type="radio" name="userbank_type" value="{$k}" userbank_name="{$v}" id="userbank_type_{$k}" class="divhide" />
+			<div class="fl mat2">{$v}</div>
+			<div class="dui"></div>
+			<div class="clear"></div>
+		</label>
+		<!--{endforeach;}-->
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+$(function(){
+	/*js_bankselect();
+	$(":input[name='userbank_type']").change(function(){
+		js_bankselect();
+	});*/
+	pe_select_radio('userbank_type', $(":input[name='userbank_type']:eq(0)").val(), function(json){
+		$("#userbank_type_show").html($(":input[name='userbank_type']:checked").attr("userbank_name"));
+		js_bankselect();
+		app_page_close();
+	});
+	$(":button").click(function(){
+		var userbank_type = $(":input[name='userbank_type']:checked").val();
+		/*if (userbank_type != 'alipay' && userbank_type != 'tenpay' && $(":input[name='userbank_address']").val() == '') {
+			app_tip('请填写开户行');
+			return false;
+		}
+		if ($(":input[name='userbank_num']").val() == '') {
+			app_tip('请填写收款帐号');
+			return false;
+		}
+		if ($(":input[name='userbank_tname']").val() == '') {
+			app_tip('请填写收款人');
+			return false;
+		}*/
+		app_submit('user.php?mod=userbank&act=add', function(json){
+			if (json.result) {
+				if ('{$_g_fromto}') {
+					app_open("{$_g_fromto}", 1000);				
+				}
+				else {
+					app_open("user.php?mod=userbank", 1000);				
+				}
+			}
+		})
+	})
+})
+function js_bankselect() {
+	var userbank_type = $(":input[name='userbank_type']:checked").val();
+	if (userbank_type == 'alipay' || userbank_type == 'wechat') {
+		$("#userbank_address").hide().find(":input").attr("disabled", "disabled");
+	}
+	else {
+		$("#userbank_address").show().find(":input").removeAttr("disabled");
+	}
+}
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

@@ -1,0 +1,41 @@
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="user.php?mod=setting&act=base"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="main">
+	<form method="post" id="form">
+	<div class="zc_box2">
+		<div class="zc_list">
+			<div class="zc_mal zc_i5"><input type="text" name="user_phone" value="{$info['user_phone']}" readonly class="zc_input1" /></div>
+		</div>
+		<div class="zc_list">
+			<div class="zc_mal zc_i4"><input type="text" name="yzm" value="" class="zc_input1" placeholder="短信验证码" /></div>
+			<div class="zc_smsyzm" href="{$pe['host_root']}index.php?mod=check&act=send_yzm&type=oldphone" onclick="pe_sendyzm(this, 'user_phone')">获取验证码</div>
+		</div>
+		<!--<div class="zc_list">
+			<div class="zc_mal zc_i4">
+				<input type="text" name="authcode" placeholder="图片验证码" />
+				<img src="{$pe['host_root']}include/class/authcode.class.php?w=100&h=41" onclick="pe_yzm(this)" class="zc_imgyzm" style="cursor:pointer;" />
+			</div>
+		</div>-->
+	</div>	
+	<div class="loginbtn"  style="margin:20px 10px;">
+		<input type="hidden" name="pe_token" value="{$pe_token}" />
+		<input type="hidden" name="pesubmit" />
+		<input type="button" value="提 交" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(":button").click(function(){
+		app_submit("{pe_nowurl()}", function(json){
+			if (json.result) app_open("user.php?mod=setting&act=newphone&phone_token="+json.phone_token, 1000);
+		});
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

@@ -1,0 +1,71 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="pagetop">
+	<div class="fh"><a href="javascript:app_open('back');"></a></div>
+	<div>{$menutitle}</div>
+	<div class="cd"><a href="javascript:top_menu();"></a></div>
+	<!--{include(pe_tpl('top_menu.html'));}-->
+</div>
+<div class="content">
+	<div class="lingquan">
+		<div class="quan_name">{$info['quan_name']}</div>
+		<div class="quan_date"><span></span><p>{$info['quan_sdate']} 至 {$info['quan_edate']}</p><span></span></div>
+		<div class="lq_l num ">¥ {$info['quan_money']}</div>
+		<div class="mat10">使用条件：{quan_limitshow($info)}</div>
+		<div class="clear"></div>
+		<!--<p class="mat5">剩余数量：{$info['quan_num'] - $info['quan_num_get']} 个</p>-->
+		<div class="quan_ico"><i></i></div>
+	</div>
+	<div class="tuijian_list mat10">
+		<div class="tuijian_tt"><p></p>此优惠券可用于<!--{if($info['product_id']):}-->以下<!--{else:}-->全店<!--{endif;}-->商品</div>
+		<ul>
+		<!--{foreach($info_list as $k=>$v):}-->
+		<li>
+			<div class="li_box">
+				<a href="{pe_url('product-'.$v['product_id'])}" title="{$v['product_name']}">
+					<div class="prolist_logo">
+						<img src="{$pe['host_tpl']}images/pixel.gif" data-url="{pe_thumb($v['product_logo'], 400, 400)}" title="{$v['product_name']}" class="js_imgload" />
+						<!--{if($v['huodong_tag']):}--><div class="prolist_tag">{$v['huodong_tag']}</div><!--{endif;}-->
+					</div>
+				</a>
+				<div class="prolist_name">
+					<p><a href="{pe_url('product-'.$v['product_id'])}" title="{$v['product_name']}">{$v['product_name']}</a></p>
+					<span>¥{product_money($v['product_money'])}</span>
+				</div>
+			</div>
+		</li>
+		<!--{endforeach;}-->
+		</ul>
+		<div class="clear"></div>
+	</div>
+	<div class="fenye mat10 mab10">{$db->page->html}<div class="clear"></div></div>	
+</div>
+<!--{if($info['quan_type'] == 'online'):}-->
+<div style="margin-bottom:50px;"></div>
+<div class="quan_foot">
+	<!--{if($info['quan_edate'] < date('Y-m-d')):}-->
+	<div class="quan_btn">优惠券已过期</div>
+	<!--{elseif($info['quan_num'] - $info['quan_num_get'] <= 0):}-->		
+	<div class="quan_btn">领光啦</div>	
+	<!--{elseif($quanlog_num):}-->
+	<div class="quan_btn">已领取</div>	
+	<!--{else:}-->
+	<div class="quan_btn">
+		<form method="post" id="form"><input type="hidden" name="pesubmit" /></form>	
+		<a href="javascript:;">点击领取</a>
+	</div>
+	<!--{endif;}-->
+</div>
+<!--{endif;}-->
+<script type="text/javascript">
+$(function(){
+	$(".quan_btn a").click(function(){
+		app_submit("{$pe['host_root']}index.php?mod=quan&act={$info['quan_id']}", function(json){
+			if (json.result) {
+				$(".quan_btn").text('已领取');
+			}
+		})
+	})
+})
+</script>
+<!--{include(pe_tpl('footer.html'));}-->

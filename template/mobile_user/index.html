@@ -1,0 +1,85 @@
+
+<!--{include(pe_tpl('header.html'));}-->
+<div class="content" style="margin-bottom:62px;">
+	<div class="user_info">
+		<div class="user_tt">Shaxsiy markaz</div>
+		<div class="user_tx_box">
+			<div class="user_tx">
+				<a href="user.php?mod=setting&act=logo"><img src="{$user_logo}" /></a>
+			</div>
+			<!--{if(pe_login('user')):}-->
+			<div class="user_text">
+				<div class="">{$user['user_name']}<p class="mat10"><span class="dj_btn">{$cache_userlevel[$user['userlevel_id']]['userlevel_name']}</span></p></div>
+			</div>
+			<!--{else:}-->
+			<div class="center mat20 font16">
+				<a href="user.php?mod=do&act=login">Tizimga kirish</a>　|　<a href="user.php?mod=do&act=register">ro'yxatdan o'tish</a>
+			</div>
+			<!--{endif;}-->
+		</div>
+		
+	</div>
+	<div class="side_all">
+		<div class="side_fh1">
+			<a href="user.php?mod=moneylog"><span>{$user['user_money']} сум</span>Hisob balansi</a>
+			<a href="user.php?mod=userbank"><i style="background: url(/template/mobile_user/images/iitc.png) no-repeat 0px 0px;
+    display: block;
+    width: 30px;
+    height: 25px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;"></i>Pulni yechib olish</a>
+			<!--<a href="user.php?mod=quan"><span>{$tongji['quan']} 个</span>优惠券</a>-->
+			<div class="clear"></div>
+		</div>
+		<div class="nav">
+			<a class="tgdd_tt" href="user.php?mod=order"><span class="fl">Mening buyurtmalarim</span><span class="fr c888 font13">Ko`proq</span><i class="more_jt"></i></a>
+			<ul>
+			<li><a href="user.php?mod=order&state=recycle"><i class="user_tb4"></i>Qayta ishlash<!--{if($tongji['wpj']):}--><span>{$tongji['recycle']}</span><!--{endif;}--></a></li>
+			<li><a href="user.php?mod=order&state=wpay"><i class="user_tb1"></i>Menga yoqadi<!--{if($tongji['wpay']):}--><span>{$tongji['wpay']}</span><!--{endif;}--></a></li>
+			<li><a href="user.php?mod=order&state=wsend"><i class="user_tb2"></i>Yuborish kutilmoqda<!--{if($tongji['wsend']):}--><span>{$tongji['wsend']}</span><!--{endif;}--></a></li>
+			<li><a href="user.php?mod=order&state=wget"><i class="user_tb3"></i>Yuborish<!--{if($tongji['wget']):}--><span>{$tongji['wget']}</span><!--{endif;}--></a></li>
+			<!--<li><a href="user.php?mod=order&state=wpj"><i class="user_tb4"></i>待评价<!--{if($tongji['wpj']):}--><span>{$tongji['wpj']}</span><!--{endif;}--></a></li>-->
+			<!--<li><a href="user.php?mod=refund"><i class="user_tb5"></i>退款/退货<!--{if($tongji['refund']):}--><span>{$tongji['refund']}</span><!--{endif;}--></a></li>-->
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<div class="ck_nav mat10">
+			<ul>
+			<li><a href="user.php?mod=order&state=recycle"><i class="ck_i7"></i><span>Qayta ishlash</span><p></p></a></li>
+			<!--<li><a href="user.php?mod=comment"><i class="ck_i1"></i><span>我的评价</span><p></p></a></li>-->
+			<li><a href="user.php?mod=useraddr"><i class="ck_i3"></i><span>Joylashuv</span><p></p></a></li>
+			<li><a href="user.php?mod=userbank"><i class="ck_i2"></i><span>Bank kartasi hisobi</span><p></p></a></li>
+			<li><a href="user.php?mod=setting&act=base"><i class="ck_i4"></i><span>Ma`lumot</span><p></p></a></li>
+			
+			<!--<li><a href="{pe_url('article-list-1')}"><i class="ck_i6"></i><span>网站公告</span><p></p></a></li>-->
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<div class="ck_nav_xian"></div>
+		<!--<div class="side_ul mat10 mab10" style="display:none">-->
+		<!--	<ul>-->
+		<!--		<li class="side_i2"><a href="user.php?mod=comment">我的评价<span></span><i></i></a></li>-->
+		<!--		<li class="side_i1"><a href="user.php?mod=collect">我的收藏<span></span><i></i></a></li>-->
+		<!--		<li class="side_i3"><a href="user.php?mod=userbank">收款账户<span></span><i></i></a></li>-->
+		<!--		<li class="side_i4"><a href="user.php?mod=useraddr">地址管理<span></span><i></i></a></li>-->
+		<!--		<li class="side_i5"><a href="user.php?mod=setting&act=base">帐号设置<span></span><i></i></a></li>-->
+				
+				<!--{if(pe_login('user')):}-->
+		<!--		<li class="side_i7"><a href="javascript:user_logout();">退出登录<span></span><i></i></a></li>		-->
+				<!--{endif;}-->
+		<!--	</ul>-->
+		<!--</div>-->
+	</div>
+</div>
+<div class="foot_nav">
+	<ul>
+	<li><a href="{$pe['host_root']}"><i class="foot_i1"></i><span>Bosh sahifa</span></a></li>
+	<!--<li><a href="{pe_url('category-list')}"><i class="foot_i2"></i><span>分类</span></a></li>-->
+	<li><a href="{pe_url('cart')}"><i class="foot_i5"></i><span>Savatcha</span></a></li>
+	<li><a href="{$pe['host_root']}user.php?mod=order"><i class="foot_i3"></i><span>Buyurtma</span></a></li>
+	<li><a href="{$pe['host_root']}user.php"><i class="foot_i4"></i><span>Mening</span></a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<!--{include(pe_tpl('footer.html'));}-->
