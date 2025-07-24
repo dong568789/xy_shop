@@ -91,6 +91,7 @@ switch ($act) {
 					$sql_orderdata['product_money'] = $v['product_money'];
 					$sql_orderdata['product_allmoney'] = $v['product_allmoney'];
 					$sql_orderdata['product_num'] = $v['product_num'];
+					$sql_orderdata['user_id'] = $user_id;
 					$sql_orderdata['order_id'] = $order_id;
 					$db->pe_insert('orderdata', pe_dbhold($sql_orderdata, array('product_rule')));
 				}

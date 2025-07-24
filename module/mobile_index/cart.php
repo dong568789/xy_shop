@@ -20,6 +20,10 @@ switch ($act) {
 		if ($product['product_num'] < $product_num) pe_jsonshow(array('result'=>false, 'show'=>"Faqat stokda qoldi{$product['product_num']}Element"));
 		//检测虚拟商品
 		if ($act == 'add' && $product['product_type'] == 'virtual') pe_jsonshow(array('result'=>false, 'show'=>'Savatga qo‘shib bo‘lmaydi'));
+	        $orderdata = $db->pe_select('orderdata', array('user_id'=>$user_id, 'product_id'=>$product_id));
+            if($orderdata) {
+                pe_jsonshow(array('result'=>false, 'show'=>"Allaqachon sotib olingan"));
+            }
 		//检测拼团
 		if ($act == 'add' && $product['huodong_type'] == 'pintuan') pe_jsonshow(array('result'=>false, 'show'=>'Savatga qo‘shib bo‘lmaydi'));
 		if ($act == 'pintuan' && !pintuan_check($product['huodong_id'], $_g_pintuan_id)) pe_jsonshow(array('result'=>false, 'show'=>'Guruh xaridi yaroqsiz yoki tugatilgan'));

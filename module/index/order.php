@@ -52,7 +52,7 @@ switch ($act) {
 			$sql_order['order_type'] = $info['order_type'];	
 			$sql_order['order_virtual'] = $info['order_virtual'];
 			$sql_order['order_name'] = $info['order_name'];	
-			//$sql_order['order_product_id'] = $info['order_product_id'];		
+// 			$sql_order['order_product_id'] = 11;
 			$sql_order['order_product_money'] = $info['order_product_money'];
 			//$sql_order['order_product_num'] = $info['order_product_num'];
 			$sql_order['order_wl_money'] = $info['order_wl_money'];

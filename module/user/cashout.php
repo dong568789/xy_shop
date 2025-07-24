@@ -8,6 +8,7 @@ switch ($act) {
 	case 'add':
 		$menumark = 'cashout_add';
 		$info = $db->pe_select('user', array('user_id'=>$_s_user_id));
+		
 		$userbank_list = $db->index('userbank_id')->pe_selectall('userbank', array('user_id'=>$_s_user_id, 'order by'=>'userbank_id desc'));
 		$cache_setting['cashout_fee'] = round($cache_setting['cashout_fee'], 4);
 		//!count($userbank_list) && pe_error('请先添加收款账户', 'user.php?mod=userbank&act=add');
@@ -15,7 +16,7 @@ switch ($act) {
 			$cashout_money = round($_p_cashout_money, 1); 
 			$cashout_fee = round($cashout_money * $cache_setting['cashout_fee'], 1);
 			if (!is_array($userbank_list[$_p_userbank_id])) pe_jsonshow(array('result'=>false, 'show'=>'Toʻlov hisobini tanlang'));
-			if ($cashout_money < $cache_setting['cashout_min']) pe_jsonshow(array('result'=>false, 'show'=>"Yechib olish miqdori kamroq{$cache_setting['cashout_min']} UZS"));
+			if ($cashout_money < $cache_setting['cashout_min']) pe_jsonshow(array('result'=>false, 'show'=>"Yechib olish miqdori kamroq{$cache_setting['cashout_min']} so'm"));
 			if ($cashout_money > $info['user_money']) pe_jsonshow(array('result'=>false, 'show'=>'Balans yetarli emas'));
 			$sql_set['cashout_money'] = $cashout_money - $cashout_fee;
 			$sql_set['cashout_fee'] = $cashout_fee;
@@ -28,7 +29,7 @@ switch ($act) {
 			$sql_set['user_id'] = $info['user_id'];
 			$sql_set['user_name'] = $info['user_name'];
 			if ($db->pe_insert('cashout', pe_dbhold($sql_set))) {
-				add_moneylog($_s_user_id, 'cashout', $cashout_money, "Naqd pul olish{$cashout_money} UZS");
+				add_moneylog($_s_user_id, 'cashout', $cashout_money, "Naqd pul olish{$cashout_money} so'm");
 				pe_jsonshow(array('result'=>true, 'show'=>'Ariza topshirildi'));
 			}
 			else {
@@ -46,7 +47,7 @@ switch ($act) {
 		$sql_set['cashout_ptime'] = time();		
 		if ($db->pe_update('cashout', array('cashout_id'=>$info['cashout_id']), $sql_set)) {
 			$cashout_money = $info['cashout_money'] + $info['cashout_fee'];
-			add_moneylog($info['user_id'], 'back', $cashout_money, "Foydalanuvchi pul o'tkazishni bekor qiladi，qaytish{$cashout_money} UZS");
+			add_moneylog($info['user_id'], 'back', $cashout_money, "Foydalanuvchi pul o'tkazishni bekor qiladi，qaytish{$cashout_money} so'm");
 			pe_jsonshow(array('result'=>true, 'show'=>'Bekor qilish muvaffaqiyatli'));
 		}
 		else {

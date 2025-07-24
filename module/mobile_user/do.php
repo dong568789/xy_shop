@@ -6,6 +6,7 @@ switch($act) {
 		if (isset($_p_pesubmit)) {
 			$user_name = pe_dbhold($_p_user_name);
 			$user_pw = md5($_p_user_pw);
+			//echo $user_pw;exit;
 			if ($info = $db->pe_select('user', " and (user_name = '{$user_name}' or user_email = '{$user_name}' or user_phone = '{$user_name}') and user_pw = '{$user_pw}'")) {
 				user_login_callback('login', $info);
 				pe_jsonshow(array('result'=>true, 'show'=>'Kirish muvaffaqiyatli'));
@@ -53,6 +54,7 @@ switch($act) {
 		if (isset($_p_pesubmit)) {
 			unset($_SESSION['user_idtoken'], $_SESSION['user_id'], $_SESSION['user_name'], $_SESSION['user_ltime'], $_SESSION['user_nickname'], $_SESSION['user_wx_openid'], $_SESSION['pe_token']);
 			if (mb_strlen($_p_user_name, 'utf8') < 5 or mb_strlen($_p_user_name, 'utf8') > 15) pe_jsonshow(array('result'=>false, 'show'=>'Foydalanuvchi nomi (5-15 belgilar)'));
+				
 			if ($db->pe_num('user', array('user_name'=>pe_dbhold($_p_user_name)))) pe_jsonshow(array('result'=>false, 'show'=>'Foydalanuvchi nomi allaqachon mavjud'));
 			if (strlen($_p_user_pw) < 6 or strlen($_p_user_pw) > 20) pe_jsonshow(array('result'=>false, 'show'=>'Parol 6-20 belgidan iborat bo lishi kerak'));
 			if ($_p_user_pw1 && $_p_user_pw != $_p_user_pw1) pe_jsonshow(array('result'=>false, 'show'=>'Ikkita parol bir-biriga mos kelmaydi'));

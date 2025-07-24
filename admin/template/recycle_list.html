@@ -28,6 +28,7 @@
 			<th class="bgtt" style="border-bottom:0;" width="111">实付款</th>
 			<th class="bgtt" style="border-bottom:0;" width="211">收货信息</th>
 			<th class="bgtt" style="border-bottom:0;" width="91">支付/发货</th>
+			<th class="bgtt" style="border-bottom:0;" width="91">用户名</th>
 			<th class="bgtt" style="border-bottom:0;" width="91">状态</th>
 			<th class="bgtt" style="border-bottom:0;" width="91">操作</th>
 		</tr>
@@ -74,6 +75,7 @@
 				<p class="c999">{$v['order_payment_name']}</p>
 			</td>
 			<td width="210" class="aleft" valign="top" style="color:#555;padding-left:10px">
+			    <p>用户名：{$v['user_name']}</p>
 				<p>姓名：{$v['user_tname']}<!--{if($v['user_phone']):}--><span class="c888 mal5">（{$v['user_phone']}）</span><!--{endif;}--></p>
 				<p>地址：{pe_cut($v['user_address'], 13, '..')}</p>
 				<p>留言：<span class="c888">{$v['order_text']}</span></p>
@@ -83,6 +85,9 @@
 				<img src="{$pe['host_admintpl']}images/fa_{$v['order_sstate']}.png" title="{pe_date($v['order_stime'])}" />
 				<p><a href="webadmin.php?mod=order&act=print_product&id={$v['order_id']}" class="c999" onclick="return pe_dialog(this, '打印发货单', 1000, 580)">[发货单]</a></p>
 				<p><a href="webadmin.php?mod=order&act=print_express&id={$v['order_id']}" class="c999" onclick="return pe_dialog(this, '打印快递单', 1000, 580)">[快递单]</a></p>
+			</td>
+			<td width="90">
+				{$v['user_name']}
 			</td>
 			<td width="90">{order_stateshow($v['order_state'])}<p class="mat5"><a href="webadmin.php?mod=order&act=edit&id={$v['order_id']}" target="_blank" class="c999">订单详情</a></p></td>
 			<td width="90" style="border-right:0;">

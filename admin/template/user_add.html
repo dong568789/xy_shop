@@ -72,6 +72,25 @@
 			<td align="right">电子邮箱：</td>
 			<td><input type="text" name="info[user_email]" value="{$info['user_email']}" class="inputall input200" /></td>
 		</tr>
+			<tr>
+			<td align="right">是否允许提现：</td>
+			<td>
+			    <label for=""><input type="radio" name="info[tx]" value="1" <?= $info['tx']==1?'checked':''?>>允许提现</label>
+			    <label><input type="radio" name="info[tx]" value="0"  <?= $info['tx']==0?'checked':''?>>冻结</label>
+			
+			</td>
+		</tr>
+		
+					<tr>
+			<td align="right">冻结提示语：</td>
+			
+			<td><input type="text" name="info[reason]" value="{$info['reason']}" class="inputall input200" />
+			</td>
+		</tr>
+		
+		
+		
+		
 		<tr>
 			<td align="right">注册地区：</td>
 			<td><a href="http://www.ip138.com/ips138.asp?ip={$info['user_ip']}" target="_blank" class="ipname"></a><span class="num mal10">（IP：{$info['user_ip']}）</span></td>
